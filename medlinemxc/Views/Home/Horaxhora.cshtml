@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Hora por hora</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/style.min.css" rel="stylesheet">
+</head>
+
+<body class="grey lighten-3">
+    <!--Main layout-->
+    <main id="main" class="pt-5 mx-lg-2">
+        <div class="container-fluid">
+
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-3">
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">@ViewBag.tipo</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.2vw">
+                                @ViewBag.nombrelinea
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <!--Card-->
+                    <div class="card mb-4">
+                        <div class="row">
+                            <div class="col-3">
+                                <i class="fas fa-flag-checkered fa-lg primary-color-dark z-depth-2 p-4 ml-3 mt-n3 rounded text-white" style="font-size: 2vw"></i>
+                            </div>
+
+                            <div class="col-9">
+                                <div class="float-right text-right p-2 mr-2 mb-n4">
+                                    <p class="text-uppercase text-muted" style="font-size: 2vw"> ACUMULADO/META DIARIA</p>
+                                </div>
+
+                            </div>
+                          
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="float-right text-right p-2 mr-2">
+
+                                    <h1 class="font-weight-bold mb-0" style="font-size: 5.5vw"> @ViewBag.promedio</h1>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="float-right text-right p-2">
+                                    <h1 class="font-weight-bold mb-0" style="font-size: 5.5vw"><span class="badge @(ViewBag.promedio.Length > 3 ? "success-color":"danger-color-dark" )">@ViewBag.meta</span></h1>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    
+                    </div>
+                  
+                </div>
+                <div class="col-md-2">
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">DEFECTOS</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.2vw">
+                                @ViewBag.defectos
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+   
+                                <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">LINE DOWNS</span></h3>
+                                <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.2vw">
+                                    @ViewBag.linedowns
+                                </h1>
+                            
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            
+
+                <!-- Heading -->
+                <!--Grid row-->
+                <div class="row wow fadeIn">
+
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-12">
+
+                        <!--Card-->
+                        <div class="card" style="height: 98%;">
+                            <div class="card-header text-center">
+                                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 2.2vw">
+                                    Cajas por hora
+                                </h1>
+                            </div>
+                            <!--Card content-->
+                            <div class="card-body">
+
+                                <canvas id="ChartProgresoEstacion" style="height: 38vw"></canvas>
+
+                            </div>
+
+                        </div>
+                        <!--/.Card-->
+
+                    </div>
+                    <!--Grid column-->
+
+                </div>
+
+            <div class="row">
+                <div class="col-12 text-right ">
+                    @Html.ActionLink("Regresar a vista por lineas", "CleanRoom", "Home")
+                </div>
+            </div>
+            </div>
+
+    
+
+
+
+    </main>
+    <!--Main layout-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/js/jquery-3.4.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+    <!-- Charts -->
+    <script>
+        var tamanoejes = 36;
+        var tamanoticks = 38;
+
+        if (document.documentElement.clientHeight < 850)
+        {
+            document.getElementById("main").classList.remove('pt-5');
+            document.getElementById("main").classList.add('pt-4');
+
+        }else {
+            document.getElementById("ChartProgresoEstacion").style["height"] = "35vw";
+            tamanoejes = 30;
+            tamanoticks = 32;
+        }
+
+
+    // Line
+        var ctx = document.getElementById("ChartProgresoEstacion").getContext('2d');
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            datasets: [{
+                label: 'Meta',
+                data:  @ViewBag.dataset2,
+                type: 'line',
+                borderColor: '#ff8b33',
+                pointBorderColor: '#ff8b33',
+                pointBackgroundColor: '#ff8b33',
+                pointHoverBackgroundColor: '#ff8b33',
+                pointHoverBorderColor: '#ff8b33',
+                pointBorderWidth: 10,
+                pointHoverRadius: 10,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                backgroundColor: '#ff8b33',
+                borderWidth: 4,
+                // this dataset is drawn on top
+                order: 2,
+                fill: false,
+            }, {
+                label: 'Actual',
+                data: @ViewBag.dataset1,
+                backgroundColor: @Html.Raw(ViewBag.colorGraph),
+                datalabels: {
+                    // display labels for this specific dataset
+                    display: true
+                },
+                // this dataset is drawn below
+                order: 1,
+
+            }],
+            labels: @Html.Raw(ViewBag.xAxisGraph),
+        },
+      options: {
+        maintainAspectRatio:false,
+        responsive: true,
+        animation: {
+          animationRotate: true,
+                    duration: 2000
+        },
+        legend: {
+            display: true,
+            labels: {
+                fontSize: Math.round(document.documentElement.clientHeight / 32),
+                fontColor: "rgb(0,0,0)"
+            }
+
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+                            labelString: "Cajas",
+                            display: true,
+                            fontSize: Math.round(document.documentElement.clientHeight / 28),
+                            fontColor: "rgb(0,0,0)"
+                        },
+                        ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight / 30),
+                            fontColor: "rgb(0,0,0)",
+                            beginAtZero: true
+                        }
+          }],
+          xAxes: [{
+                        scaleLabel: {
+                            labelString: "Hora",
+                            display: true,
+                            fontSize: Math.round(document.documentElement.clientHeight / 28),
+                            fontColor: "rgb(0,0,0)"
+                        },
+                        ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight / 30),
+                            fontColor: "rgb(0,0,0)"
+                        }
+                    }]
+        },
+        plugins: {
+                    // Change options for ALL labels of THIS CHART
+            datalabels: {
+                display: false,
+                color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 14);
+                            return {
+                                size: size
+
+                            };
+
+                        },
+
+                    }
+                }
+      }
+    });
+
+
+        window.setInterval('refresh()',600000); //15 min
+        function refresh(){
+            window .location.reload();
+        }
+    </script>
+</body>
+
+</html>

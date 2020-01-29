@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.id</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+
+
+    <div class="view">
+        @{
+            List<String> filenames = new List<String>();
+            foreach (var files in new DirectoryInfo(Server.MapPath("~/videosmtv/" + ViewBag.id)).GetFiles())
+            {
+                filenames.Add("/videosmtv/" + ViewBag.id + "/" + files.Name);
+            }
+        }
+
+        <video  class="video-intro2" id="myvideo" controls="controls" poster="images/video_background.png" style="background-color:white;width:100%;height:100%" autoplay="autoplay" muted>
+            Your browser does not support the video tag.
+        </video>
+
+    </div>
+
+    <script type="text/javascript">
+      window.onload =  function () {
+        
+            var videoSource = @Html.Raw(Json.Encode(filenames));
+         // alert(document.getElementById('myvideo').getAttribute("src"));
+          var videoCount = videoSource.length;
+            var i = 0;
+            // Set first video as src for video element as default src
+            var myvid = document.getElementById('myvideo');
+            myvid.setAttribute("src", videoSource[i]);
+            //alert(myvid.getAttribute("src"));
+
+            myvid.addEventListener('ended', myHandler, false);
+            function myHandler() {
+                i++;
+                if (i == (videoCount)) {
+                    i = 0;
+                    myvid.src = videoSource[i];
+                    myvid.load();
+                    myvid.play();
+                }
+                else {
+                    myvid.src = videoSource[i];
+                    myvid.load();
+                    myvid.play();
+                }
+
+            }
+        }
+
+        window.setInterval('refresh()',1500000); //25 minutos
+        function refresh(){
+             window .location.reload();
+        }
+
+    </script>
+
+
+
+</body>
+</html>

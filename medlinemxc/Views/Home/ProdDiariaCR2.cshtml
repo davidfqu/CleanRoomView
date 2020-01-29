@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Hora por hora</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/style.min.css" rel="stylesheet">
+    <link href="~/css/addons/datatables.min.css" rel="stylesheet">
+    <style>
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting:before,
+        table.dataTable thead .sorting_asc:after,
+        table.dataTable thead .sorting_asc:before,
+        table.dataTable thead .sorting_asc_disabled:after,
+        table.dataTable thead .sorting_asc_disabled:before,
+        table.dataTable thead .sorting_desc:after,
+        table.dataTable thead .sorting_desc:before,
+        table.dataTable thead .sorting_desc_disabled:after,
+        table.dataTable thead .sorting_desc_disabled:before {
+            bottom: .5em;
+        }
+
+        tr.tablebody:hover {
+            background: #c2e8ff !important;
+        }
+    </style>
+</head>
+
+<body class="grey lighten-3">
+    <!--Main layout-->
+    <main id="main" class="pt-5 mx-lg-2">
+        <div class="container-fluid">
+
+            <div class="row wow fadeIn">
+                <div class="col-md-10">
+
+                    <!-- Heading -->
+                    <div class="card mb-3 wow fadeIn">
+
+                        <!--Card content-->
+                        <div class="card-body d-sm-flex justify-content-between">
+                            <h1 class="font-weight-bold mb-sm-0 pt-1" style="font-size: 5vw">
+                                Producción Diaria <span class="font-weight-light text-muted">Clean Room </span>
+                            </h1>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-2 pl-0">
+                    <img id="medlinelogo" class="d-flex justify-content-right" src="~/Images/medline-logo.png" alt="Medline Logo" height="165vw" width="165vw" style="margin-left:3vw">
+                </div>
+
+            </div>
+            <div class="row mb-1">
+
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-md-12">
+
+                    <!--Card-->
+                    <div class="card" style="height: 98%;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-5"></div>
+                                <div class="col-4 text-left">
+                                    <p class="mb-1  font-weight-bold" style="font-size:1.5vw"> Cajas por línea</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <p class="text-muted mb-1 font-weight-light" style="font-size:1.5vw"> 1/23/2020 5:00 am <a class="fas fa-sync-alt"></a></p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!--Card content-->
+                        <div class="card-body">
+
+                            <canvas id="ChartProgresoEstacion" style="height: 30vw"></canvas>
+
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="dtVerticalScrollExample" class="table table-striped  table-hover table-sm" cellspacing="0"
+                           width="100%" style="background-color:white">
+                        <thead>
+                            <tr>
+
+                                <th class="th-sm">
+                                    Línea
+                                </th>
+                                <th class="th-sm">
+                                    Tipo
+                                </th>
+                                <th class="th-sm">
+                                    Producción (Cajas)
+                                </th>
+                                <th class="th-sm">
+                                    Meta (Cajas)
+                                </th>
+                                <th class="th-sm">
+                                    Defectos
+                                </th>
+                                <th class="th-sm">
+                                    Line Downs
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 1; i < 19; i++)
+                            {
+
+                                <tr class="tablebody">
+                                    <td>@i</td>
+                                    <td>Tradicional</td>
+                                    <td>25</td>
+                                    <td>21</td>
+                                    <td>2</td>
+                                    <td>3</td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Total
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    100
+                                </th>
+                                <th>
+                                    100
+                                </th>
+                                <th>
+                                    30
+                                </th>
+                                <th>
+                                    20
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+    </main>
+    <!--Main layout-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/js/jquery-3.4.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="~/js/addons/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#dtVerticalScrollExample').DataTable({
+                scrollY: "30vh",
+                scrollCollapse: true,
+                paging: false,
+                searching: false,
+                info: false,
+            });
+
+            $('.dataTables_length').addClass('bs-select');
+
+
+            if (document.documentElement.clientHeight < 850) {
+                document.getElementById("medlinelogo").style.height = '9.5vw';
+                document.getElementById("medlinelogo").style.width = '9.5vw';
+                document.getElementById("main").classList.remove('pt-5');
+                document.getElementById("main").classList.add('pt-4');
+
+            }
+
+            // Line
+            var ctx = document.getElementById("ChartProgresoEstacion").getContext('2d');
+
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: 'Meta',
+                        data: [25, 38, 38, 19, 38, 38, 38, 38, 28, 25, 38, 38, 19, 38, 38, 38, 38, 28],
+                        type: 'line',
+                        borderColor: '#ff8b33',
+                        pointBorderColor: '#ff8b33',
+                        pointBackgroundColor: '#ff8b33',
+                        pointHoverBackgroundColor: '#ff8b33',
+                        pointHoverBorderColor: '#ff8b33',
+                        pointBorderWidth: 5,
+                        pointHoverRadius: 5,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 3,
+                        backgroundColor: '#ff8b33',
+                        borderWidth: 4,
+                        // this dataset is drawn on top
+                        order: 2,
+                        fill: false,
+                    }, {
+                        label: 'Producción',
+                        data: [25, 32, 40, 20, 35, 30, 36, 38, 25, 25, 32, 40, 20, 35, 30, 36, 38, 25],
+                        backgroundColor: [
+              "#7dc975", "#de5f5f", "#7dc975", "#7dc975", "#de5f5f",
+              "#de5f5f", "#de5f5f", "#7dc975", "#7dc975", "#7dc975", "#de5f5f", "#7dc975", "#7dc975", "#de5f5f",
+              "#de5f5f", "#de5f5f", "#7dc975", "#7dc975"
+                        ],
+                        datalabels: {
+                            // display labels for this specific dataset
+                            display: true
+                        },
+                        // this dataset is drawn below
+                        order: 1,
+
+                    }],
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18' ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        animationRotate: true,
+                        duration: 2000
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontSize: Math.round(document.documentElement.clientHeight / 50),
+                            fontColor: "rgb(0,0,0)"
+                        }
+
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                labelString: "Cajas",
+                                display: true,
+                                fontSize: Math.round(document.documentElement.clientHeight / 38),
+                                fontColor: "rgb(0,0,0)"
+                            },
+                            ticks: {
+                                fontSize: Math.round(document.documentElement.clientHeight / 40),
+                                fontColor: "rgb(0,0,0)",
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                labelString: "Línea",
+                                display: true,
+                                fontSize: Math.round(document.documentElement.clientHeight / 38),
+                                fontColor: "rgb(0,0,0)"
+                            },
+                            ticks: {
+                                fontSize: Math.round(document.documentElement.clientHeight / 40),
+                                fontColor: "rgb(0,0,0)"
+                            }
+                        }]
+                    },
+                    plugins: {
+                        // Change options for ALL labels of THIS CHART
+                        datalabels: {
+                            display: false,
+                            color: "rgb(0,0,0)",
+                            font: function (context) {
+                                var height = context.chart.height;
+                                var size = Math.round(height / 26);
+                                return {
+                                    size: size
+
+                                };
+
+                            },
+
+                        }
+                    }
+                }
+            });
+
+
+            window.setInterval('refresh()', 600000); //15 min
+            function refresh() {
+                window.location.reload();
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

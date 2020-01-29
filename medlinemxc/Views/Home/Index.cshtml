@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Progeso Setup</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/style.min.css" rel="stylesheet">
+
+
+    <style>
+        .content {
+            position: fixed;
+            bottom: 20%;
+            color: #f1f1f1;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .videomtv {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <video class="videomtv" playsinline autoplay="autoplay" muted="muted" loop="loop">
+        <source src="~/Images/Clean Particles Background.mp4" type="video/mp4">
+    </video>
+
+    <div class="content">
+
+        <img id="img_logo" alt="Logo" src="~/Images/Medline-TV.png" width="200" height="200" />
+        <br /><br /><br /><br /><br /><br />
+
+        <a target="_self" href="@Url.Action("Setup","Home")" class="btn btn-danger">Setup</a>
+
+        @foreach (var folder in new DirectoryInfo(Server.MapPath("~/videosmtv")).GetDirectories())
+            {
+            <a target="_self" href='@Url.Action("Video", "Home", new { id= folder.Name})' class="btn btn-primary">@folder.Name</a>
+        }
+    </div>
+
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+
+</body>
+</html>

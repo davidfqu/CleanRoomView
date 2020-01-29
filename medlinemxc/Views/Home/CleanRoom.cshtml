@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Hora por hora</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/style.min.css" rel="stylesheet">
+
+</head>
+
+<body class="grey lighten-3">
+    <!--Main layout-->
+    <main id="main" class="pt-5 mx-lg-2">
+        <div class="container-fluid">
+
+            <div class="row wow fadeIn">
+                <div class="col-md-10">
+
+                    <!-- Heading -->
+                    <div class="card mb-1 wow fadeIn">
+
+                        <!--Card content-->
+                        <div class="card-body d-sm-flex justify-content-between">
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1" style="font-size: 5vw">
+                                Clean Room
+                            </h1>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-2 pl-0">
+                    <img id="medlinelogo" class="d-flex justify-content-right" src="~/Images/medline-logo.png" alt="Medline Logo" height="165vw" width="165vw" style="margin-left:3vw">
+                </div>
+
+            </div>
+
+            <!-- Heading -->
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+                <div class="col-md-12 mb-1">
+
+                            <p class="text-muted mb-1 text-center font-weight-light" style="font-size:2vw">Hora por hora</p>
+                        
+                </div>
+                
+
+                <!--Grid column-->
+                <!--Grid column-->
+                @foreach (var item in ViewBag.linesInfo)
+                {
+                    string nombrelinea = "L" + Convert.ToString(item.linea);
+                    <div class="col-md-2">
+                        <div class="card mb-3 waves-effect fadeIn" >
+                            <a href='@Url.Action("Horaxhora", new { id = Convert.ToInt16(item.linea)})'>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="rounded primary-color-dark ml-3 mt-2 text-white text-center" style="width:5vw;font-size:2vw">@nombrelinea</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="rounded font-weight-bold text-center mt-2" style="width:5vw;font-size:1.8vw"> @item.promedio</p>
+                                    </div>
+
+                                </div>
+                                <div class="card-body pt-0">
+                                    <p class="text-muted mb-1 text-center font-weight-light" style="font-size:1.5vw">@item.descripcion</p>
+                                    <div class="progress md-progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: @Html.Raw(item.promedio)"  aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-md-4">
+                    <div class="card mb-3 waves-effect fadeIn">
+                        <a href='@Url.Action("ProdDiariaCR")'>
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <p class="rounded danger-color-dark ml-3 mt-3 text-white text-center" style="width:20vw;font-size:2vw">Total acumulado</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p class="rounded font-weight-bold text-right mt-3" style="width:5vw;font-size:2vw"> @ViewBag.linesAvg</p>
+                                </div>
+
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="progress md-progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: @Html.Raw(ViewBag.linesAvg)"  aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+
+                            </div>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+          
+            
+
+        </div>
+
+
+
+
+
+    </main>
+    <!--Main layout-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/js/jquery-3.4.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+        // Animations initialization
+        new WOW().init();
+    </script>
+
+    <script>
+        if (document.documentElement.clientHeight < 850) {
+            document.getElementById("medlinelogo").style.height = '9.5vw';
+            document.getElementById("medlinelogo").style.width = '9.5vw';
+            document.getElementById("main").classList.remove('pt-5');
+            document.getElementById("main").classList.add('pt-4');
+
+        }
+
+    </script>
+
+</body>
+
+</html>
