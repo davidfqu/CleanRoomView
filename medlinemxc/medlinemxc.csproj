@@ -43,6 +43,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="IBM.Data.DB2.iSeries, Version=12.0.0.0, Culture=neutral, PublicKeyToken=9cdb2ebfb1f93a26, processorArchitecture=MSIL">
       <HintPath>..\packages\IBM.Data.DB2.iSeries.7.1.0\lib\IBM.Data.DB2.iSeries.dll</HintPath>
       <Private>True</Private>
@@ -92,6 +100,8 @@
       <HintPath>..\packages\System.Data.SqlClient.4.8.0\lib\net451\System.Data.SqlClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -224,6 +234,17 @@
     <Content Include="js\modules\waves.js" />
     <Content Include="js\modules\wow.js" />
     <Content Include="js\popper.min.js" />
+    <Content Include="Models\LayoutSystem.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LayoutSystem.Context.cs</LastGenOutput>
+      <DependentUpon>LayoutSystem.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\LayoutSystem.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LayoutSystem.edmx</DependentUpon>
+      <LastGenOutput>LayoutSystem.cs</LastGenOutput>
+    </Content>
+    <Content Include="videosmtv\Cafeteria\ganadores sorteo 23dic.mp4" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -231,8 +252,52 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\t_boxingscanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cleanroomview1_Result.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\croomdiario.cs" />
+    <Compile Include="Models\LayoutSystem.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutSystem.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LayoutSystem.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LayoutSystem.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutSystem.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_dailyline_Result.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_boxingscan.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_boxingscan_d.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_boxingscan_h.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_config.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_lineconf.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_lineconfd.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_lineconfh.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -314,6 +379,22 @@
     <Content Include="Views\Home\CleanRoom.cshtml" />
     <Content Include="Views\Home\ProdDiariaCR.cshtml" />
     <Content Include="Views\Home\ProdDiariaCR2.cshtml" />
+    <Content Include="Views\Home\mtv.cshtml" />
+    <EntityDeploy Include="Models\LayoutSystem.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LayoutSystem.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LayoutSystem.edmx.diagram">
+      <DependentUpon>LayoutSystem.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\t_boxingscan\ScanView.cshtml" />
+    <Content Include="Views\t_boxingscan\Horaxhora.cshtml" />
+    <Content Include="Views\t_boxingscan\CleanRoom.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\t_boxingscan\Index.cshtml" />
+    <Content Include="Views\t_boxingscan\ProdDiariaCR.cshtml" />
+    <Content Include="Views\t_boxingscan\HistorialDiario.cshtml" />
+    <Content Include="Views\t_boxingscan\BoxingLines.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -323,9 +404,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="videosmtv\" />
-    <Folder Include="Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

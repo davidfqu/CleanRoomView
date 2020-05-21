@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/addons/datatables.min.css" rel="stylesheet">
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet">
+    @RenderSection("style", required: false)
+    <style>
+        .container-fluid {
+            padding-left: 4vw;
+            padding-right: 4vw;
+        }
+
+    </style>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color: rgba(0,69,130,1)">
+        <div class="container-fluid">
+            <a class="navbar-brand font-weight-bold loader-on" href="@Url.Action("CleanRoom", "t_boxingscan", null)"> <img src="~/Images/medline-logo.png" class="m-0 p-0 img-fluid" id="logoMedline" style="height:2.9rem" /> Clean Room View</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+                    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link active loader-on" href="@Url.Action("CleanRoom", "t_boxingscan", null)">
+                            Home
+                        </a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="background-color:white">
+        @RenderBody()
+
+        <hr class="mt-4" />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Clean Room View  </p>
+        </footer>
+    </div>
+
+
+    <script type="text/javascript" src="~/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="~/js/addons/datatables.min.js"></script>
+    <script src="~/js/jquery.datetimepicker.js"></script>
+    <script src="~/js/detect.min.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

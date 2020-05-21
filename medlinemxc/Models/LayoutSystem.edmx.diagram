@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a364f7a8b1c45348cdaf22fb82c54ac" Name="Diagram1">
+        <EntityTypeShape EntityType="LayoutSystemModel.t_boxingscan" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_lineconf" Width="1.5" PointX="3.75" PointY="2" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_lineconfd" Width="1.5" PointX="6" PointY="4" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_lineconfh" Width="1.5" PointX="6" PointY="1" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_boxingscan_h" Width="1.5" PointX="2.75" PointY="5.75" />
+        <AssociationConnector Association="LayoutSystemModel.FK_t_lineconfd_t_lineconf" />
+        <AssociationConnector Association="LayoutSystemModel.FK_t_lineconfh_t_lineconf" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_config" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="LayoutSystemModel.t_boxingscan_d" Width="1.5" PointX="7.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

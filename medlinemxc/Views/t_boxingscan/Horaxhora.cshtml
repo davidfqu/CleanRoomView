@@ -21,135 +21,135 @@
     <main id="main" class="pt-5 mx-lg-2">
         <div class="container-fluid">
 
+            <div class="row wow fadeIn mb-0">
+
+                <!--Grid column-->
+                <div class="col-md-2">
+                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">@ViewBag.tlineadesc</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                                @("L" + ViewBag.linea)
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">CAJAS</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1" style="font-size:5.8vw; color:  @(ViewBag.promedio >= 100 ? "#00C851":"#CC0000" )">
+                                @(Convert.ToString(ViewBag.tcajas) + "/" + Convert.ToString(ViewBag.tmeta))
+                            </h1>
+
+                        </div>
+
+                    </div>
+                </div>
+               
+                <div class="col-md-2">
+                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">KITS</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                                @ViewBag.tkits
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">WOs</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                                @ViewBag.twos
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">T. MUERTO</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                                @ViewBag.ttmuerto
+                            </h1>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row mb-2 mt-0">
+                <div class="col-12">
+                    <div class="progress" style="background-color:white; border-radius:100px;height:3vw">
+                        <div id="hprogress" class="progress-bar bg-success progress-bar-striped font-weight-bold" style="width:@(Html.Raw((Convert.ToString(ViewBag.promedio) + "%")));border-radius:100px;height:3vw;font-size:2.9vw">@(Convert.ToString(ViewBag.promedio) + "%")</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heading -->
+            <!--Grid row-->
             <div class="row wow fadeIn">
 
                 <!--Grid column-->
-                <div class="col-md-3">
-                    <div class="card mb-4 wow fadeIn">
+                <!--Grid column-->
+                <div class="col-md-12">
 
-                        <div class="list-group list-group-flush align-items-center mt-2">
-
-                            <h3 style="font-size: 2.5vw"><span class="badge primary-color-dark">@ViewBag.tipo</span></h3>
-                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
-                                @ViewBag.nombrelinea
-                            </h1>
-
-
-                        </div>
-
-                    </div>
-                </div>
-                
-                <div class="col-md-5">
                     <!--Card-->
-                    <div class="card mb-4">
-                        <div class="row">
-                            <div class="col-3">
-                                <i class="fas fa-flag-checkered fa-lg primary-color-dark z-depth-2 p-4 ml-3 mt-n3 rounded text-white" style="font-size: 2vw"></i>
-                            </div>
-
-                            <div class="col-9">
-                                <div class="float-right text-right p-2 mr-2 mb-n4">
-                                    <p class="text-uppercase text-muted" style="font-size: 2vw"> ACUMULADO/META DIARIA</p>
-                                </div>
-
-                            </div>
-                          
-
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="float-right text-right p-2 mr-2">
-
-                                    <h1 class="font-weight-bold mb-0" style="font-size: 6vw"> @ViewBag.promedio</h1>
-                                </div>
-
-                            </div>
-                            <div class="col-6">
-                                <div class="float-right text-right p-2 mt-n2">
-                                    <h1 class="font-weight-bold mb-0" style="font-size: 6vw"><span class="badge @(ViewBag.promedio.Length > 3 ? "success-color":"danger-color-dark" )">@ViewBag.meta</span></h1>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    
-                    </div>
-                  
-                </div>
-                <div class="col-md-2">
-                    <div class="card mb-4 wow fadeIn">
-
-                        <div class="list-group list-group-flush align-items-center mt-2">
-
-                            <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">DEFECTOS</span></h3>
-                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
-                                @ViewBag.defectos
+                    <div class="card" style="height: 98%;">
+                        <div class="card-header text-center">
+                            <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 2.2vw">
+                                Cajas por hora
                             </h1>
+                        </div>
+                        <!--Card content-->
+                        <div class="card-body">
 
+                            <canvas id="ChartProgresoEstacion" style="height: 35vw"></canvas>
 
                         </div>
 
                     </div>
+                    <!--/.Card-->
+
                 </div>
-                <div class="col-md-2">
-                    <div class="card mb-4 wow fadeIn">
-
-                        <div class="list-group list-group-flush align-items-center mt-2">
-   
-                                <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">LINE DOWNS</span></h3>
-                                <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
-                                    @ViewBag.linedowns
-                                </h1>
-                            
-
-                        </div>
-
-                    </div>
-                </div>
-
+                <!--Grid column-->
 
             </div>
-            
-
-                <!-- Heading -->
-                <!--Grid row-->
-                <div class="row wow fadeIn">
-
-                    <!--Grid column-->
-                    <!--Grid column-->
-                    <div class="col-md-12">
-
-                        <!--Card-->
-                        <div class="card" style="height: 98%;">
-                            <div class="card-header text-center">
-                                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 2.2vw">
-                                    Cajas por hora
-                                </h1>
-                            </div>
-                            <!--Card content-->
-                            <div class="card-body">
-
-                                <canvas id="ChartProgresoEstacion" style="height: 38vw"></canvas>
-
-                            </div>
-
-                        </div>
-                        <!--/.Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                </div>
 
             <div class="row">
                 <div class="col-12 text-right ">
-                    @Html.ActionLink("Regresar a vista por lineas", "CleanRoom", "Home")
+                    @Html.ActionLink("Regresar a vista por lineas", "CleanRoom", "t_boxingscan")
                 </div>
             </div>
-            </div>
+        </div>
 
-    
+
 
 
 
@@ -168,9 +168,23 @@
     <script type="text/javascript">
     // Animations initialization
         new WOW().init();
-        window.setInterval('refresh()', 900000); //15 min
-        function refresh(){
-            window .location.reload();
+        window.setInterval(function () {
+            doIt();
+        }, 1000);
+
+
+        function refresh() {
+            window.location.reload();
+        }
+
+        function doIt() {
+            var d, h, m, s;
+            d = new Date();
+            m = d.getMinutes();
+            s = d.getSeconds();
+            if ((m == 30 && s == 5) || (m == 0 && s == 5)) {
+                window.location.reload();
+            }
         }
 
     </script>
@@ -180,7 +194,7 @@
 
     <!-- Charts -->
     <script>
-       
+
         var tamanoejes = 36;
         var tamanoticks = 38;
 
@@ -194,8 +208,9 @@
             tamanoejes = 30;
             tamanoticks = 32;
         }
+     </script>
 
-
+    <script>
     // Line
         var ctx = document.getElementById("ChartProgresoEstacion").getContext('2d');
 
@@ -297,7 +312,7 @@
     });
 
 
-        
+
     </script>
 </body>
 

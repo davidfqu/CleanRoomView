@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LayoutSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_boxingscan">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="linea" />
+          </Key>
+          <Property Name="folio" Type="int" Nullable="false" />
+          <Property Name="lote" Type="varchar" MaxLength="50" />
+          <Property Name="wo" Type="varchar" MaxLength="50" />
+          <Property Name="pn" Type="varchar" MaxLength="50" />
+          <Property Name="cajas_total" Type="int" />
+          <Property Name="cajas_scan" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="tmuerto" Type="int" />
+        </EntityType>
+        <EntityType Name="t_config">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="jornada" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="hrs_disp" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="seg_disp" Type="numeric" Precision="12" Scale="2" />
+          <Property Name="cajas_linea" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="kits_caja" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="kits_linea" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="tak_time" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="tak80" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="assy_time" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="max_comp" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="mesa_ens" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="mesa_wrap" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="mesa_sub" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="oper_na" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="surtidor" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="insp_sella" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="sellador" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="inspeccion" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="u_id" Type="varchar" MaxLength="20" />
+          <Property Name="f_id" Type="datetime" />
+          <Property Name="horizontal" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="vertical" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="sobre" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="wrap_na" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="tucktape" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="version" Type="varchar" MaxLength="10" />
+          <Property Name="lenguage" Type="varchar" MaxLength="2" />
+          <Property Name="detroit" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="max_hc" Type="numeric" Precision="3" Scale="0" />
+          <Property Name="min_hc" Type="numeric" Precision="3" Scale="0" />
+          <Property Name="ind_boxhr" Type="varchar" MaxLength="1" />
+          <Property Name="out_addtime" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="cycle_timer" Type="varchar" MaxLength="1" />
+          <Property Name="active" Type="varchar" MaxLength="1" />
+          <Property Name="comp_pre" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="threshold_boxscan" Type="int" />
+        </EntityType>
+        <EntityType Name="t_lineconf">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="descrip" Type="varchar" MaxLength="100" />
+          <Property Name="meta" Type="numeric" Precision="10" Scale="0" />
+          <Property Name="meta_um" Type="varchar" MaxLength="10" />
+          <Property Name="turno" Type="varchar" MaxLength="10" />
+          <Property Name="u_id" Type="varchar" MaxLength="20" />
+          <Property Name="f_id" Type="datetime" />
+        </EntityType>
+        <EntityType Name="t_lineconfd">
+          <Key>
+            <PropertyRef Name="clave" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="clave" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="consec" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="line" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="t_lineconfh">
+          <Key>
+            <PropertyRef Name="clave" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="clave" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="consec" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="hora" Type="varchar" MaxLength="50" />
+          <Property Name="meta" Type="numeric" Precision="10" Scale="0" />
+          <Property Name="meta_ac" Type="numeric" Precision="10" Scale="0" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_d' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="t_boxingscan_d">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="cajas" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="kits" Type="int" />
+          <Property Name="wos" Type="int" />
+          <Property Name="tmuerto" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="t_boxingscan_h">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="horaformato" />
+          </Key>
+          <Property Name="fecha" Type="date" />
+          <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="hora" Type="int" />
+          <Property Name="horaformato" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="cajas" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="kits" Type="int" />
+          <Property Name="wos" Type="int" />
+          <Property Name="tmuerto" Type="int" />
+        </EntityType>
+        <Association Name="FK_t_lineconfd_t_lineconf">
+          <End Role="t_lineconf" Type="Self.t_lineconf" Multiplicity="1" />
+          <End Role="t_lineconfd" Type="Self.t_lineconfd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_lineconf">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="t_lineconfd">
+              <PropertyRef Name="clave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_lineconfh_t_lineconf">
+          <End Role="t_lineconf" Type="Self.t_lineconf" Multiplicity="1" />
+          <End Role="t_lineconfh" Type="Self.t_lineconfh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_lineconf">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="t_lineconfh">
+              <PropertyRef Name="clave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="cleanroomview1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_dailyline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="turno" Type="varchar" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="LayoutSystemModelStoreContainer">
+          <EntitySet Name="t_boxingscan" EntityType="Self.t_boxingscan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_config" EntityType="Self.t_config" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_lineconf" EntityType="Self.t_lineconf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_lineconfd" EntityType="Self.t_lineconfd" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_lineconfh" EntityType="Self.t_lineconfh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_boxingscan_d" EntityType="Self.t_boxingscan_d" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [t_boxingscan_d].[fecha] AS [fecha], 
+    [t_boxingscan_d].[linea] AS [linea], 
+    [t_boxingscan_d].[cajas] AS [cajas], 
+    [t_boxingscan_d].[kits] AS [kits], 
+    [t_boxingscan_d].[wos] AS [wos], 
+    [t_boxingscan_d].[tmuerto] AS [tmuerto]
+    FROM [dbo].[t_boxingscan_d] AS [t_boxingscan_d]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="t_boxingscan_h" EntityType="Self.t_boxingscan_h" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [t_boxingscan_h].[fecha] AS [fecha], 
+    [t_boxingscan_h].[linea] AS [linea], 
+    [t_boxingscan_h].[hora] AS [hora], 
+    [t_boxingscan_h].[horaformato] AS [horaformato], 
+    [t_boxingscan_h].[cajas] AS [cajas], 
+    [t_boxingscan_h].[kits] AS [kits], 
+    [t_boxingscan_h].[wos] AS [wos], 
+    [t_boxingscan_h].[tmuerto] AS [tmuerto]
+    FROM [dbo].[t_boxingscan_h] AS [t_boxingscan_h]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_t_lineconfd_t_lineconf" Association="Self.FK_t_lineconfd_t_lineconf">
+            <End Role="t_lineconf" EntitySet="t_lineconf" />
+            <End Role="t_lineconfd" EntitySet="t_lineconfd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_lineconfh_t_lineconf" Association="Self.FK_t_lineconfh_t_lineconf">
+            <End Role="t_lineconf" EntitySet="t_lineconf" />
+            <End Role="t_lineconfh" EntitySet="t_lineconfh" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LayoutSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LayoutSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_boxingscan" EntityType="LayoutSystemModel.t_boxingscan" />
+          <EntitySet Name="t_lineconf" EntityType="LayoutSystemModel.t_lineconf" />
+          <EntitySet Name="t_lineconfd" EntityType="LayoutSystemModel.t_lineconfd" />
+          <EntitySet Name="t_lineconfh" EntityType="LayoutSystemModel.t_lineconfh" />
+          <EntitySet Name="t_boxingscan_h" EntityType="LayoutSystemModel.t_boxingscan_h" />
+          <AssociationSet Name="FK_t_lineconfd_t_lineconf" Association="LayoutSystemModel.FK_t_lineconfd_t_lineconf">
+            <End Role="t_lineconf" EntitySet="t_lineconf" />
+            <End Role="t_lineconfd" EntitySet="t_lineconfd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_lineconfh_t_lineconf" Association="LayoutSystemModel.FK_t_lineconfh_t_lineconf">
+            <End Role="t_lineconf" EntitySet="t_lineconf" />
+            <End Role="t_lineconfh" EntitySet="t_lineconfh" />
+          </AssociationSet>
+          <FunctionImport Name="sp_dailyline" ReturnType="Collection(LayoutSystemModel.sp_dailyline_Result)">
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="turno" Mode="In" Type="String" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="cleanroomview1" ReturnType="Collection(LayoutSystemModel.cleanroomview1_Result)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="t_config" EntityType="LayoutSystemModel.t_config" />
+          <EntitySet Name="t_boxingscan_d" EntityType="LayoutSystemModel.t_boxingscan_d" />
+        </EntityContainer>
+        <EntityType Name="t_boxingscan">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="linea" />
+          </Key>
+          <Property Name="folio" Type="Int32" Nullable="false" />
+          <Property Name="lote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="wo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pn" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cajas_total" Type="Int32" />
+          <Property Name="cajas_scan" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="tmuerto" Type="Int32" />
+        </EntityType>
+        <EntityType Name="t_lineconf">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="descrip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="meta" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="meta_um" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="turno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="u_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="f_id" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="t_lineconfd" Relationship="LayoutSystemModel.FK_t_lineconfd_t_lineconf" FromRole="t_lineconf" ToRole="t_lineconfd" />
+          <NavigationProperty Name="t_lineconfh" Relationship="LayoutSystemModel.FK_t_lineconfh_t_lineconf" FromRole="t_lineconf" ToRole="t_lineconfh" />
+        </EntityType>
+        <EntityType Name="t_lineconfd">
+          <Key>
+            <PropertyRef Name="clave" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="consec" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="line" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_lineconf" Relationship="LayoutSystemModel.FK_t_lineconfd_t_lineconf" FromRole="t_lineconfd" ToRole="t_lineconf" />
+        </EntityType>
+        <EntityType Name="t_lineconfh">
+          <Key>
+            <PropertyRef Name="clave" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="consec" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="hora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="meta" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="meta_ac" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="t_lineconf" Relationship="LayoutSystemModel.FK_t_lineconfh_t_lineconf" FromRole="t_lineconfh" ToRole="t_lineconf" />
+        </EntityType>
+        <EntityType Name="t_boxingscan_h">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="horaformato" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="hora" Type="Int32" />
+          <Property Name="cajas" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="kits" Type="Int32" />
+          <Property Name="wos" Type="Int32" />
+          <Property Name="tmuerto" Type="Int32" />
+          <Property Name="horaformato" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_t_lineconfd_t_lineconf">
+          <End Type="LayoutSystemModel.t_lineconf" Role="t_lineconf" Multiplicity="1" />
+          <End Type="LayoutSystemModel.t_lineconfd" Role="t_lineconfd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_lineconf">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="t_lineconfd">
+              <PropertyRef Name="clave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_lineconfh_t_lineconf">
+          <End Type="LayoutSystemModel.t_lineconf" Role="t_lineconf" Multiplicity="1" />
+          <End Type="LayoutSystemModel.t_lineconfh" Role="t_lineconfh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_lineconf">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="t_lineconfh">
+              <PropertyRef Name="clave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_dailyline_Result">
+          <Property Type="Decimal" Name="consec" Nullable="false" Precision="3" Scale="0" />
+          <Property Type="String" Name="hora" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="clave" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="meta" Nullable="true" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="meta_ac" Nullable="true" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="cajas" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="kits" Nullable="false" />
+          <Property Type="Int32" Name="tmuerto" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="cleanroomview1_Result">
+          <Property Type="String" Name="linea" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="cajas" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="kits" Nullable="true" />
+          <Property Type="Int32" Name="tmuerto" Nullable="true" />
+          <Property Type="Int32" Name="wos" Nullable="true" />
+          <Property Type="String" Name="clave" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="descrip" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="hora" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="meta_ac" Nullable="true" Precision="10" Scale="0" />
+          <Property Type="String" Name="promedio" Nullable="true" MaxLength="31" />
+        </ComplexType>
+        <EntityType Name="t_config">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="jornada" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="hrs_disp" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="seg_disp" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="cajas_linea" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="kits_caja" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="kits_linea" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="tak_time" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="tak80" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="assy_time" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="max_comp" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="mesa_ens" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="mesa_wrap" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="mesa_sub" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="oper_na" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="surtidor" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="insp_sella" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="sellador" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="inspeccion" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="u_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="f_id" Type="DateTime" Precision="3" />
+          <Property Name="horizontal" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="vertical" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="sobre" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="wrap_na" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="tucktape" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="version" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="lenguage" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="detroit" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="max_hc" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="min_hc" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="ind_boxhr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="out_addtime" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="cycle_timer" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="comp_pre" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="threshold_boxscan" Type="Int32" />
+        </EntityType>
+        <EntityType Name="t_boxingscan_d">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cajas" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="kits" Type="Int32" />
+          <Property Name="wos" Type="Int32" />
+          <Property Name="tmuerto" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LayoutSystemModelStoreContainer" CdmEntityContainer="LayoutSystemEntities">
+          <EntitySetMapping Name="t_boxingscan">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_boxingscan">
+              <MappingFragment StoreEntitySet="t_boxingscan">
+                <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="cajas_scan" ColumnName="cajas_scan" />
+                <ScalarProperty Name="cajas_total" ColumnName="cajas_total" />
+                <ScalarProperty Name="pn" ColumnName="pn" />
+                <ScalarProperty Name="wo" ColumnName="wo" />
+                <ScalarProperty Name="lote" ColumnName="lote" />
+                <ScalarProperty Name="folio" ColumnName="folio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_lineconf">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_lineconf">
+              <MappingFragment StoreEntitySet="t_lineconf">
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="turno" ColumnName="turno" />
+                <ScalarProperty Name="meta_um" ColumnName="meta_um" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_lineconfd">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_lineconfd">
+              <MappingFragment StoreEntitySet="t_lineconfd">
+                <ScalarProperty Name="line" ColumnName="line" />
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_lineconfh">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_lineconfh">
+              <MappingFragment StoreEntitySet="t_lineconfh">
+                <ScalarProperty Name="meta_ac" ColumnName="meta_ac" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_boxingscan_h">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_boxingscan_h">
+              <MappingFragment StoreEntitySet="t_boxingscan_h">
+                <ScalarProperty Name="horaformato" ColumnName="horaformato" />
+                <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
+                <ScalarProperty Name="wos" ColumnName="wos" />
+                <ScalarProperty Name="kits" ColumnName="kits" />
+                <ScalarProperty Name="cajas" ColumnName="cajas" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_dailyline" FunctionName="LayoutSystemModel.Store.sp_dailyline">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LayoutSystemModel.sp_dailyline_Result">
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="meta_ac" ColumnName="meta_ac" />
+                <ScalarProperty Name="cajas" ColumnName="cajas" />
+                <ScalarProperty Name="kits" ColumnName="kits" />
+                <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="cleanroomview1" FunctionName="LayoutSystemModel.Store.cleanroomview1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LayoutSystemModel.cleanroomview1_Result">
+                <ScalarProperty Name="linea" ColumnName="linea" />
+                <ScalarProperty Name="cajas" ColumnName="cajas" />
+                <ScalarProperty Name="kits" ColumnName="kits" />
+                <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
+                <ScalarProperty Name="wos" ColumnName="wos" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="meta_ac" ColumnName="meta_ac" />
+                <ScalarProperty Name="promedio" ColumnName="promedio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="t_config">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_config">
+              <MappingFragment StoreEntitySet="t_config">
+                <ScalarProperty Name="threshold_boxscan" ColumnName="threshold_boxscan" />
+                <ScalarProperty Name="comp_pre" ColumnName="comp_pre" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="cycle_timer" ColumnName="cycle_timer" />
+                <ScalarProperty Name="out_addtime" ColumnName="out_addtime" />
+                <ScalarProperty Name="ind_boxhr" ColumnName="ind_boxhr" />
+                <ScalarProperty Name="min_hc" ColumnName="min_hc" />
+                <ScalarProperty Name="max_hc" ColumnName="max_hc" />
+                <ScalarProperty Name="detroit" ColumnName="detroit" />
+                <ScalarProperty Name="lenguage" ColumnName="lenguage" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="tucktape" ColumnName="tucktape" />
+                <ScalarProperty Name="wrap_na" ColumnName="wrap_na" />
+                <ScalarProperty Name="sobre" ColumnName="sobre" />
+                <ScalarProperty Name="vertical" ColumnName="vertical" />
+                <ScalarProperty Name="horizontal" ColumnName="horizontal" />
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="inspeccion" ColumnName="inspeccion" />
+                <ScalarProperty Name="sellador" ColumnName="sellador" />
+                <ScalarProperty Name="insp_sella" ColumnName="insp_sella" />
+                <ScalarProperty Name="surtidor" ColumnName="surtidor" />
+                <ScalarProperty Name="oper_na" ColumnName="oper_na" />
+                <ScalarProperty Name="mesa_sub" ColumnName="mesa_sub" />
+                <ScalarProperty Name="mesa_wrap" ColumnName="mesa_wrap" />
+                <ScalarProperty Name="mesa_ens" ColumnName="mesa_ens" />
+                <ScalarProperty Name="max_comp" ColumnName="max_comp" />
+                <ScalarProperty Name="assy_time" ColumnName="assy_time" />
+                <ScalarProperty Name="tak80" ColumnName="tak80" />
+                <ScalarProperty Name="tak_time" ColumnName="tak_time" />
+                <ScalarProperty Name="kits_linea" ColumnName="kits_linea" />
+                <ScalarProperty Name="kits_caja" ColumnName="kits_caja" />
+                <ScalarProperty Name="cajas_linea" ColumnName="cajas_linea" />
+                <ScalarProperty Name="seg_disp" ColumnName="seg_disp" />
+                <ScalarProperty Name="hrs_disp" ColumnName="hrs_disp" />
+                <ScalarProperty Name="jornada" ColumnName="jornada" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_boxingscan_d">
+            <EntityTypeMapping TypeName="LayoutSystemModel.t_boxingscan_d">
+              <MappingFragment StoreEntitySet="t_boxingscan_d">
+                <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
+                <ScalarProperty Name="wos" ColumnName="wos" />
+                <ScalarProperty Name="kits" ColumnName="kits" />
+                <ScalarProperty Name="cajas" ColumnName="cajas" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<medlinemxc.Models.t_boxingscan>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.linea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cajas_total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cajas_scan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tmuerto)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+    @Html.DisplayFor(modelItem => item.linea)
+</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cajas_total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cajas_scan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tmuerto)
+        </td>
+
+    </tr>
+}
+
+</table>
