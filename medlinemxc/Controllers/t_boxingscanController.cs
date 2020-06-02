@@ -126,13 +126,15 @@ namespace medlinemxc.Controllers
             decimal metaactual = 50000;
             decimal cajasactual = 50000;
             decimal tcajas, tmeta;
-            int tmuerto;
-            var treshold = db.t_config.Find("686").threshold_boxscan;
+            int tmuerto, tkits;
+            var config = db.t_config.Find("686");
+            var treshold = config.threshold_boxscan;
 
             int consecactual = 50000;
 
             tcajas = tablaprogreso.Sum(x => x.cajas); 
             tmeta = Convert.ToDecimal(tablaprogreso.Sum(x => x.meta));
+            tkits = tablaprogreso.Sum(x => x.kits);
             tmuerto = tablaprogreso.Sum(x => x.tmuerto);
 
 
@@ -145,6 +147,7 @@ namespace medlinemxc.Controllers
                     consecactual = Convert.ToInt16(item.consec);
                     tcajas = tablaprogreso.Where(x => x.consec <= item.consec).Sum(x => x.cajas);
                     tmuerto = tablaprogreso.Where(x => x.consec <= item.consec).Sum(x => x.tmuerto);
+                    tkits = tablaprogreso.Where(x => x.consec <= item.consec).Sum(x => x.kits);
                     metaactual = Convert.ToDecimal(item.meta_ac);
                 }
                 
@@ -164,6 +167,8 @@ namespace medlinemxc.Controllers
 
             // var metah = db.t_lineconfh.Where(x => x.clave == tlinea).OrderBy(x=>x.consec).ToList();
             //var cajash = db.t_boxingscan_h.Where(x => x.linea == linea && DbFunctions.TruncateTime(x.fecha) >= DateTime.Today).OrderBy(x => x.hora).ToList();
+            ViewBag.factor_kitsxcaja = config.factor_kitsxcaja;
+            ViewBag.tkits = tkits;
             ViewBag.tcajas = tcajas;
             ViewBag.tmeta = metaactual;
             ViewBag.ttmuerto = tmuerto;
@@ -177,17 +182,20 @@ namespace medlinemxc.Controllers
         public ActionResult loteScan(string id, string linea, int treshold)
         {
            
-
             t_boxingscan queryultimofolio = new t_boxingscan();
-            try
+            
+            var queryultimofolios = db.t_boxingscan.Where(x => x.linea == linea).OrderByDescending(x => x.folio).ToList();
+
+            if(queryultimofolios.Any())
             {
-                queryultimofolio = db.t_boxingscan.Where(x => x.linea == linea).OrderByDescending(x => x.folio).First<t_boxingscan>();
+                queryultimofolio = queryultimofolios.First<t_boxingscan>();
             }
-            catch
+            else
             {
                 queryultimofolio.lote = "0";
+            }     
+            
                 
-            }
             string[] infoScan = new string[8];
             t_boxingscan newboxingscan = new t_boxingscan();
 
@@ -226,7 +234,6 @@ namespace medlinemxc.Controllers
                     Console.WriteLine(ex.Message); return View();
                 }
                 myCon.Close();
-
                 newboxingscan.folio = queryultimofolio.folio + 1;
                 newboxingscan.wo = infoLote[0].Replace(" ", String.Empty);
                 newboxingscan.lote = infoLote[1].Replace(" ", String.Empty);
@@ -285,25 +292,22 @@ namespace medlinemxc.Controllers
 
             newboxingscan.tmuerto = tiempomuerto;
 
-            if(ModelState.IsValid)
-            {
-                db.t_boxingscan.Add(newboxingscan);
-                db.SaveChanges();
-            }
+           
 
             double totalkits = Math.Round(Convert.ToDouble(newboxingscan.cajas_total / newboxingscan.cajas_scan));
             infoScan[1] = newboxingscan.wo;
             infoScan[2] = Convert.ToString(newboxingscan.cajas_total);
             infoScan[3] = Convert.ToString(totalkits);
 
-            int sumkits = db.t_boxingscan.Where(x => x.wo == newboxingscan.wo && x.linea == linea).Count();
+            int sumkits = db.t_boxingscan.Where(x => x.wo == newboxingscan.wo && x.linea == linea).Count() + 1;
             decimal sumcajas = Math.Round(Convert.ToDecimal(sumkits * newboxingscan.cajas_scan), 2);
             infoScan[6] = Convert.ToString(Math.Round(Convert.ToDouble((sumcajas/newboxingscan.cajas_total)*100))) + "%";
 
             infoScan[5] = Convert.ToString(sumkits);
             infoScan[4] = Convert.ToString(sumcajas);
-           if(sumkits >= totalkits)
+           if(sumkits > totalkits)
             {
+                newboxingscan.wo_completa = "1";
                 infoScan[7] = "1";
                 infoScan[6] = "100%";
                 infoScan[4] = infoScan[2];
@@ -311,7 +315,14 @@ namespace medlinemxc.Controllers
             }
            else
             {
+                newboxingscan.wo_completa = "0";
                 infoScan[7] = "0";
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.t_boxingscan.Add(newboxingscan);
+                db.SaveChanges();
             }
             return Json(infoScan, JsonRequestBehavior.AllowGet);
 
@@ -427,9 +438,12 @@ namespace medlinemxc.Controllers
             }
 
             int twos = 0;
+            string fechactual = System.DateTime.Today.ToString("yyyy/MM/dd");
+
+            var hola = db.t_boxingscan_d.Where(x => x.linea == linea && x.fecha ==fechactual).ToList();
             try
             {
-              twos = Convert.ToInt32(db.t_boxingscan_d.Where(x => x.linea == linea && x.fecha == System.DateTime.Today.ToString("yyyy/MM/dd")).First().wos);
+              twos = Convert.ToInt32(db.t_boxingscan_d.Where(x => x.linea == linea && x.fecha == fechactual).First().wos);
             }
             catch
             {

@@ -127,7 +127,7 @@
 
                     </div>
                     <!--Card-->
-                    <div class="card" style="height:38vh">
+                    <div class="card" style="height:27vh">
 
                         <!--Card content-->
                         <div class="card-body d-flex align-items-center justify-content-center">
@@ -147,20 +147,20 @@
                 <div class="col-md-6 col-sm-6 px-2">
 
                     <!--Card-->
-                    <div id="indincorrecto" class="card red lighten-4 indicadores" style="height:54vh;display:none">
+                    <div id="indincorrecto" class="card red lighten-4 indicadores" style="height:43vh;display:none">
                         <div class="text-center my-auto">
                             <i class="fas fa-ban" style="font-size:32vh; color:#b71c1c"></i>
                         </div>
 
                     </div>
                     <!--/.Card-->
-                    <div  id="indcorrecto" class="card green lighten-4 indicadores" style="height:54vh;display:none">
+                    <div  id="indcorrecto" class="card green lighten-4 indicadores" style="height:43vh;display:none">
                         <div class="text-center my-auto">
                             <i class="fas fa-check" style="font-size:32vh; color:#1b5e20"></i>
                         </div>
                     </div>
 
-                    <div id="indcargando" class="card blue lighten-5 indicadores" style="height:54vh;display:none">
+                    <div id="indcargando" class="card blue lighten-5 indicadores" style="height:43vh;display:none">
                         <div class="text-center my-auto">
                             <i class="fas fa-spinner" style="font-size:32vh; color:#0d47a1"></i>
                             <p class="my-3"><h3 style="font-size:3.5vh; color: #0d47a1">Cargando</h3></p>
@@ -222,8 +222,8 @@
                                     }
                                    
                                 </tr>
-                                <tr>
-                                    <th scope="row">Meta</th>
+                                <tr style="border-bottom: 3px solid black">
+                                    <th scope="row">Meta (Cajas)</th>
                                     @foreach (var item in ViewBag.tablaprogreso)
                                     {
                                         
@@ -241,6 +241,45 @@
                                     
                                     <td class="font-weight-bold">@ViewBag.tmeta</td>
                                 </tr>
+                                <tr>
+                                    <th scope="row">Kits</th>
+                                    @foreach (var item in ViewBag.tablaprogreso)
+                                    {
+
+                                        if (item.consec <= ViewBag.consecactual)
+                                        {
+
+                                            <td class="font-weight-bold">@item.kits</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="@(ViewBag.consecactual + 1 == item.consec ? "blue lighten-5":"")">@item.kits</td>
+                                        }
+
+                                    }
+
+                                    <td class="font-weight-bold">@ViewBag.tkits</td>
+                                </tr>
+                                <tr style="border-bottom: 3px solid black">
+                                    <th scope="row">Meta (Kits)</th>
+                                    @foreach (var item in ViewBag.tablaprogreso)
+                                    {
+
+                                        if (item.consec <= ViewBag.consecactual)
+                                        {
+
+                                            <td class="font-weight-bold">@(Convert.ToInt32(item.meta * ViewBag.factor_kitsxcaja))</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="@(ViewBag.consecactual + 1 == item.consec ? "blue lighten-5":"")">@(Convert.ToInt32(item.meta * ViewBag.factor_kitsxcaja))</td>
+                                        }
+
+                                    }
+
+                                    <td class="font-weight-bold">@(Convert.ToInt32(ViewBag.tmeta * ViewBag.factor_kitsxcaja))</td>
+                                </tr>
+
                                 <tr>
                                     <th scope="row">T. Muerto</th>
                                     @foreach (var item in ViewBag.tablaprogreso)

@@ -19,6 +19,7 @@
           <Property Name="fecha" Type="datetime" />
           <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="tmuerto" Type="int" />
+          <Property Name="wo_completa" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="t_config">
           <Key>
@@ -61,6 +62,7 @@
           <Property Name="active" Type="varchar" MaxLength="1" />
           <Property Name="comp_pre" Type="numeric" Precision="2" Scale="0" />
           <Property Name="threshold_boxscan" Type="int" />
+          <Property Name="factor_kitsxcaja" Type="numeric" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="t_lineconf">
           <Key>
@@ -236,6 +238,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="fecha" Type="DateTime" Precision="3" />
           <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="tmuerto" Type="Int32" />
+          <Property Name="wo_completa" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="t_lineconf">
           <Key>
@@ -374,6 +377,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="comp_pre" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="threshold_boxscan" Type="Int32" />
+          <Property Name="factor_kitsxcaja" Type="Decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="t_boxingscan_d">
           <Key>
@@ -396,6 +400,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <EntitySetMapping Name="t_boxingscan">
             <EntityTypeMapping TypeName="LayoutSystemModel.t_boxingscan">
               <MappingFragment StoreEntitySet="t_boxingscan">
+                <ScalarProperty Name="wo_completa" ColumnName="wo_completa" />
                 <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
                 <ScalarProperty Name="linea" ColumnName="linea" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -488,6 +493,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <EntitySetMapping Name="t_config">
             <EntityTypeMapping TypeName="LayoutSystemModel.t_config">
               <MappingFragment StoreEntitySet="t_config">
+                <ScalarProperty Name="factor_kitsxcaja" ColumnName="factor_kitsxcaja" />
                 <ScalarProperty Name="threshold_boxscan" ColumnName="threshold_boxscan" />
                 <ScalarProperty Name="comp_pre" ColumnName="comp_pre" />
                 <ScalarProperty Name="active" ColumnName="active" />

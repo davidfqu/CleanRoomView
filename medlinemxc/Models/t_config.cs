@@ -51,5 +51,6 @@ namespace medlinemxc.Models
         public string active { get; set; }
         public Nullable<decimal> comp_pre { get; set; }
         public Nullable<int> threshold_boxscan { get; set; }
+        public Nullable<decimal> factor_kitsxcaja { get; set; }
     }
 }

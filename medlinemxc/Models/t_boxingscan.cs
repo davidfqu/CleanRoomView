@@ -23,5 +23,6 @@ namespace medlinemxc.Models
         public Nullable<System.DateTime> fecha { get; set; }
         public string linea { get; set; }
         public Nullable<int> tmuerto { get; set; }
+        public string wo_completa { get; set; }
     }
 }
