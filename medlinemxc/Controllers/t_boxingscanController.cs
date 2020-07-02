@@ -167,6 +167,21 @@ namespace medlinemxc.Controllers
 
             // var metah = db.t_lineconfh.Where(x => x.clave == tlinea).OrderBy(x=>x.consec).ToList();
             //var cajash = db.t_boxingscan_h.Where(x => x.linea == linea && DbFunctions.TruncateTime(x.fecha) >= DateTime.Today).OrderBy(x => x.hora).ToList();
+            string ultimolote;
+            try
+            {
+                var queryultimofolios = db.t_boxingscan.Where(x => x.linea == linea).OrderByDescending(x => x.folio).First<t_boxingscan>();
+                    ultimolote = queryultimofolios.lote;
+            }
+            catch
+            {
+                ultimolote = "0";
+            }
+
+           var usuarios = db.t_boxingscan_pass.ToList();
+
+            ViewBag.usuarios = usuarios;
+            ViewBag.ultimolote = ultimolote;
             ViewBag.factor_kitsxcaja = config.factor_kitsxcaja;
             ViewBag.tkits = tkits;
             ViewBag.tcajas = tcajas;
@@ -240,6 +255,7 @@ namespace medlinemxc.Controllers
                 newboxingscan.pn = infoLote[2].Replace(" ", String.Empty);
                 newboxingscan.cajas_total = Convert.ToInt16(infoLote[3]);
                 newboxingscan.cajas_scan = Convert.ToDecimal(1.0 / Convert.ToInt16(infoLote[4]));
+                newboxingscan.kits_por_caja = Convert.ToInt16(infoLote[4]);
                 newboxingscan.fecha = System.DateTime.Now;
                 newboxingscan.linea = linea;
             }
@@ -254,6 +270,7 @@ namespace medlinemxc.Controllers
                 newboxingscan.cajas_scan = queryultimofolio.cajas_scan;
                 newboxingscan.fecha = System.DateTime.Now;
                 newboxingscan.linea = linea;
+                newboxingscan.kits_por_caja = queryultimofolio.kits_por_caja;
             }
 
             //tiempomuerto
@@ -294,7 +311,7 @@ namespace medlinemxc.Controllers
 
            
 
-            double totalkits = Math.Round(Convert.ToDouble(newboxingscan.cajas_total / newboxingscan.cajas_scan));
+            double totalkits = Math.Round(Convert.ToDouble(newboxingscan.cajas_total * newboxingscan.kits_por_caja));
             infoScan[1] = newboxingscan.wo;
             infoScan[2] = Convert.ToString(newboxingscan.cajas_total);
             infoScan[3] = Convert.ToString(totalkits);
@@ -325,6 +342,116 @@ namespace medlinemxc.Controllers
                 db.SaveChanges();
             }
             return Json(infoScan, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public string Desbloqueo(string linea, string contrasena)
+        {
+            string correcto = "0";
+            var usuarios = db.t_boxingscan_pass.ToList();
+            foreach (var usuario in usuarios)
+            {
+                if (contrasena == usuario.contrasena)
+                {
+                    correcto = "1";
+                    int ultimobloqueo = 0;
+                    try
+                    {
+                        ultimobloqueo = db.t_boxingscan_cambiowo.OrderByDescending(x => x.folio).ToList().First().folio;
+                    }
+                    catch
+                    {
+                        ultimobloqueo = 0;
+                    }
+                   
+                    t_boxingscan_cambiowo newboxingscan_cambiowo = new t_boxingscan_cambiowo();
+
+                    newboxingscan_cambiowo.folio = ultimobloqueo + 1;
+                    newboxingscan_cambiowo.fecha = System.DateTime.Now;
+                    newboxingscan_cambiowo.bloqueo = 0;
+                    newboxingscan_cambiowo.linea = linea;
+                    newboxingscan_cambiowo.usuario = usuario.usuario;
+
+                    db.t_boxingscan_cambiowo.Add(newboxingscan_cambiowo);
+                    db.SaveChanges();
+
+                    break;
+                }
+                    
+            }
+
+            return correcto;
+        }
+
+        public void Bloqueo(string linea, string lote_anterior, string lote_nuevo)
+        {
+            string wo_anterior = "-", wo_nueva = "-";
+
+            #region as400
+
+            OdbcConnection myCon = new OdbcConnection();
+            string sConnection = "Driver=iSeries Access ODBC Driver;System=AS400SYS;uid=inqmex;pwd=inqmex;";
+            myCon.ConnectionString = sConnection;
+
+            try
+            {
+                myCon.Open();
+                Console.WriteLine("Connection successful!");
+
+                string sQuery = "SELECT FCSTRHDR.SHWONO WO, FCSTRHDR.SHLOT LOT, FCSTRHDR.SHSPN PN, FCSTRHDR.SHSQTY CASES, FKITMSTR.IMSTCK KPC FROM B20E386T.CSM400MFG.FCSTRHDR FCSTRHDR INNER JOIN  B20E386T.KBM400MFG.FKITMSTR FKITMSTR ON FCSTRHDR.SHSPN = FKITMSTR.IMPN AND FCSTRHDR.SHSCO = FKITMSTR.IMCO WHERE(FCSTRHDR.SHLOT = '" + lote_anterior + "' AND FCSTRHDR.SHSCO = '686')";
+                string sQuery2 = "SELECT FCSTRHDR.SHWONO WO, FCSTRHDR.SHLOT LOT, FCSTRHDR.SHSPN PN, FCSTRHDR.SHSQTY CASES, FKITMSTR.IMSTCK KPC FROM B20E386T.CSM400MFG.FCSTRHDR FCSTRHDR INNER JOIN  B20E386T.KBM400MFG.FKITMSTR FKITMSTR ON FCSTRHDR.SHSPN = FKITMSTR.IMPN AND FCSTRHDR.SHSCO = FKITMSTR.IMCO WHERE(FCSTRHDR.SHLOT = '" + lote_nuevo + "' AND FCSTRHDR.SHSCO = '686')";
+
+                OdbcCommand myCom = new OdbcCommand(sQuery, myCon);
+                OdbcDataReader myReader;
+                myReader = myCom.ExecuteReader();
+                while (myReader.Read())
+                {
+                    wo_anterior = myReader[0].ToString();
+                    //Console.WriteLine(myReader[0].ToString() + myReader[1].ToString() + myReader[2].ToString() + " " + myReader[3].ToString());
+                }
+
+                OdbcCommand myCom2 = new OdbcCommand(sQuery2, myCon);
+                OdbcDataReader myReader2;
+                myReader2 = myCom2.ExecuteReader();
+                while (myReader2.Read())
+                {
+                    wo_nueva = myReader2[0].ToString();
+                    //Console.WriteLine(myReader[0].ToString() + myReader[1].ToString() + myReader[2].ToString() + " " + myReader[3].ToString());
+                }
+
+            }
+            catch
+            {
+                wo_anterior = "-";
+                wo_nueva = "-";
+            }
+            
+            myCon.Close();
+            #endregion
+
+
+            int ultimobloqueo = 0;
+
+            try
+            {
+                ultimobloqueo = db.t_boxingscan_cambiowo.OrderByDescending(x => x.folio).ToList().First().folio;
+            }
+            catch
+            {
+                ultimobloqueo = 0;
+            }
+            
+            t_boxingscan_cambiowo newboxingscan_cambiowo = new t_boxingscan_cambiowo();
+
+            newboxingscan_cambiowo.folio = ultimobloqueo + 1;
+            newboxingscan_cambiowo.fecha = System.DateTime.Now;
+            newboxingscan_cambiowo.bloqueo = 1;
+            newboxingscan_cambiowo.linea = linea;
+            newboxingscan_cambiowo.wo_anterior = wo_anterior.Replace(" ", String.Empty); 
+            newboxingscan_cambiowo.wo_nueva = wo_nueva.Replace(" ", String.Empty); 
+
+            db.t_boxingscan_cambiowo.Add(newboxingscan_cambiowo);
+            db.SaveChanges();
 
         }
 

@@ -281,10 +281,16 @@
     <Compile Include="Models\t_boxingscan.cs">
       <DependentUpon>LayoutSystem.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\t_boxingscan_cambiowo.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\t_boxingscan_d.cs">
       <DependentUpon>LayoutSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\t_boxingscan_h.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\t_boxingscan_pass.cs">
       <DependentUpon>LayoutSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\t_config.cs">

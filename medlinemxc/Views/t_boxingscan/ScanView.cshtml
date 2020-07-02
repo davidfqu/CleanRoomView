@@ -24,10 +24,57 @@
         .card {
             border-radius: 15px;
         }
+
+
+        .overlay {
+            /* Height & width depends on how you want to reveal the overlay (see JS below) */
+            height: 100%;
+            width: 0;
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            background-color: rgb(0,0,0); /* Black fallback color */
+            background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+        }
+
+        .overlay-content {
+            position: relative;
+            top: 22%; /* 25% from the top */
+            width: 100%; /* 100% width */
+            text-align: center; /* Centered text/links */
+            margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+        }
     </style>
+ 
 </head>
 
 <body class="grey lighten-3">
+    <div id="myNav" class="overlay">
+        <!-- Overlay content -->
+        <div class="overlay-content">
+            <i class="fas fa-exclamation-triangle warning-ic" style="font-size:66px"></i>
+            <p class="font-weight-bold text-white mt-2" style="font-size:26px;">
+                Hubo cambio de Work Order sin previo aviso
+            </p>
+            
+                <div class="card-body my-auto text-white">
+                    <div class="row d-flex justify-content-center mb-5">
+                        <div class="col-4 text-center">
+                            <h3 class="mt-0 mb-1" style="font-size: 22px"> Contraseña</h3>
+                            <input id="i_contrasena" type="password" class="form-control mt-2">
+                            <button id="b_desbloquear" type="button" class="btn btn-primary mt-2">Desbloquear</button>
+                            <h3 id="l_contra_inc" class="mt-1  text-danger" style="font-size: 18px; display:none"> Contraseña incorrecta</h3>
+                            <h3 id="l_contra_corr" class="mt-1 text-success" style="font-size: 18px; display:none"> Contraseña correcta</h3>
+                        </div>
+                       
+                    </div>
+                    </div>
+            </div>
+
+    </div>
     <!--Main layout-->
     <main id="main" class="pt-3 mx-md-2">
         <div class="container-fluid">
@@ -39,7 +86,7 @@
                     <a  id="brefresh" class="card primary-color-dark hoverable" style="height: 13vh">
 
                         <div class="text-center my-auto">
-                            <h3 class="my-1" style="font-size: 5vh"><i class="fas fa-sync-alt white-ic"></i></h3>
+                            <h3 class="my-1" style="font-size: 5vh"><i class="fas fa-redo-alt white-ic"></i></h3>
                         </div>
 
                     </a>
@@ -115,7 +162,7 @@
             <!--Grid row-->
             <div class="row">
 
-                <div class="col-md-6 col-sm-6 px-2">
+                <div class="col-md-4 col-sm-4 px-2">
                     <div class="card mb-2" style="height:15vh">
 
                         <!--Card content-->
@@ -144,7 +191,7 @@
 
                 </div>
 
-                <div class="col-md-6 col-sm-6 px-2">
+                <div class="col-md-4 col-sm-4 px-2">
 
                     <!--Card-->
                     <div id="indincorrecto" class="card red lighten-4 indicadores" style="height:43vh;display:none">
@@ -162,11 +209,21 @@
 
                     <div id="indcargando" class="card blue lighten-5 indicadores" style="height:43vh;display:none">
                         <div class="text-center my-auto">
-                            <i class="fas fa-spinner" style="font-size:32vh; color:#0d47a1"></i>
+                            <i class="fas fa-spinner" style="font-size:28vh; color:#0d47a1"></i>
                             <p class="my-3"><h3 style="font-size:3.5vh; color: #0d47a1">Cargando</h3></p>
                         </div>
                     </div>
                 </div>
+
+                <a href="#" class="col-md-4 col-sm-4 px-2" data-toggle="modal" data-target="#ModalCambioWO">
+                    <div id="cambioWO" class="card blue lighten-5 hoverable" style="height:43vh">
+                        <div class="text-center my-auto">
+                            <i id="i_cambiowo" class="fas fa-exchange-alt" style="font-size:28vh; color:#0d47a1"></i>
+                            <i id="i_avisocambiowo" class="fas fa-check-double" style="font-size:28vh; color:#0d47a1; display:none"></i>
+                            <p class="my-3"><h3 style="font-size:3.5vh; color: #0d47a1">Cambio de WO</h3></p>
+                        </div>
+                    </div>
+                </a>
 
 
             </div>
@@ -306,7 +363,42 @@
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="ModalCambioWO" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
 
+            <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
+            <div class="modal-dialog modal-dialog-centered " role="document">
+
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle" style="font-size:6vh">Cambio de WO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size:4vh; border-bottom: 2px solid #f2f2f2" >
+                        ¿Está seguro que desea cambiar de Work Order?
+                    </div>
+                    <div class="p-3 pt-0">
+                        <div class="row">
+                            <div class="col-5">
+                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal" style="font-size:2.5vh">No</button>
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+                            <div class="col-5">
+                                <button id="b_cambiowo" type="button" class="btn btn-success btn-block"  data-dismiss="modal" style="font-size:2.5vh">Si</button>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -328,11 +420,18 @@
     <!-- Charts -->
     <script>
         $(document).ready(function () {
+
             $("#ilote").focus();
             var treshold = @ViewBag.treshold;
             var linea = $("#hlinea").text();
             var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+            var ultimoscan = "@ViewBag.ultimolote";
+            var avisoCambioWO = 0;
+            var bloqueo = 0;
             var f = new Date();
+            var contrasena  = "-";
+            var effects = 'animated shake';
+            var effectsEnd = 'animationEnd oAnimationEnd mozAnimationEnd webkitAnimationEnd';
 
             var scan;
             $('#hfecha').text(f.getDate() + "-" + meses[f.getMonth()] + "-" + f.getFullYear());
@@ -367,13 +466,27 @@
                         scan = scan.substr(scan.length - 8);
                         if (scan[0] == "2" && scan[3] == "M")
                         {
-                            Scan();
+                            if(ultimoscan == scan || ultimoscan == "0" || (ultimoscan != scan && avisoCambioWO == 1))
+                            {
+                                Scan();
+                                avisoCambioWO = 0;
+                                $("#i_cambiowo").show();
+                                $("#i_avisocambiowo").hide();
+                            }
+                            else
+                            {
+                                Bloqueo();
+                                $(".indicadores").hide();
+                                bloqueo = 1;
+                                document.getElementById("myNav").style.width = "100%";
+                            }
+
                         }
                         else
                         {
                             CodIncorrecto();
                         }
-                        
+
                     }
                     else
                     {
@@ -396,7 +509,9 @@
                         $("#hkits").text(infoScan[5]);
                         $("#hprogress").text(infoScan[6]);
                         $('#hprogress').css("width", infoScan[6]);
-                        
+
+                        ultimoscan = scan;
+
                         if(infoScan[0] == "0")
                         {
                             CodCorrecto();
@@ -416,7 +531,47 @@
                     }
                 });
             }
-            
+
+            function Bloqueo() {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Bloqueo", "t_boxingscan")',
+                    data: {  linea : linea, lote_anterior: ultimoscan, lote_nuevo : scan}
+                });
+            }
+
+
+            function Desloqueo() {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Desbloqueo", "t_boxingscan")',
+                    dataType: 'json',
+                    data: {linea:linea, contrasena: contrasena},
+                    success: function (correcto) {
+
+                        if(correcto == "1")
+                        {
+
+                            $('#l_contra_inc').hide();
+                            $('#l_contra_corr').show();
+                            window.location.reload();
+                        }
+                        else
+                        {
+                            $('#l_contra_inc').show();
+
+                            $('#l_contra_inc').addClass(effects).one(effectsEnd, function () {
+                                $('#l_contra_inc').removeClass(effects);
+                            });
+                        }
+
+                    },
+                    error: function (ex) {
+                        alert("error de conexion");
+                    }
+                });
+            }
+
 
             function CodCorrecto(){
                 $(".indicadores").hide();
@@ -444,6 +599,18 @@
                 doIt();
             }, 1000);
 
+            $("#b_cambiowo").click(function(){
+                avisoCambioWO = 1;
+                $("#i_cambiowo").hide();
+                $("#i_avisocambiowo").show();
+            });
+
+            $("#b_desbloquear").click(function(){
+                contrasena = $("#i_contrasena").val();
+                Desloqueo();
+
+
+            });
 
             function refresh() {
                 window.location.reload();
@@ -459,7 +626,10 @@
                 m = d.getMinutes();
                 s = d.getSeconds();
                 if ((m == 30 && s == 5) || (m == 0 && s == 5)) {
-                    window.location.reload();
+                    if(bloqueo==0)
+                    {
+                        window.location.reload();
+                    }
                 }
             }
 

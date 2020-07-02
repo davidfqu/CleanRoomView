@@ -12,18 +12,14 @@ namespace medlinemxc.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class t_boxingscan
+    public partial class t_boxingscan_cambiowo
     {
         public int folio { get; set; }
-        public string lote { get; set; }
-        public string wo { get; set; }
-        public string pn { get; set; }
-        public Nullable<int> cajas_total { get; set; }
-        public Nullable<decimal> cajas_scan { get; set; }
-        public Nullable<System.DateTime> fecha { get; set; }
         public string linea { get; set; }
-        public Nullable<int> tmuerto { get; set; }
-        public string wo_completa { get; set; }
-        public Nullable<int> kits_por_caja { get; set; }
+        public string usuario { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public string wo_anterior { get; set; }
+        public string wo_nueva { get; set; }
+        public Nullable<int> bloqueo { get; set; }
     }
 }
