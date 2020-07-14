@@ -15,7 +15,7 @@
           <Property Name="wo" Type="varchar" MaxLength="50" />
           <Property Name="pn" Type="varchar" MaxLength="50" />
           <Property Name="cajas_total" Type="int" />
-          <Property Name="cajas_scan" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="cajas_scan" Type="decimal" Precision="18" Scale="6" />
           <Property Name="fecha" Type="datetime" />
           <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="tmuerto" Type="int" />
@@ -258,7 +258,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="wo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="pn" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cajas_total" Type="Int32" />
-          <Property Name="cajas_scan" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="cajas_scan" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="fecha" Type="DateTime" Precision="3" />
           <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="tmuerto" Type="Int32" />

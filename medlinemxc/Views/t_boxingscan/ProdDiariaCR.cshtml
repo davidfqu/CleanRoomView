@@ -141,7 +141,7 @@
                                     <td class="font-weight-bold">@item.linea</td>
                                     <td class="font-weight-bold">@item.descrip</td>
                                     <td class="font-weight-bold">@item.meta_ac</td>
-                                    <td class="@(item.cajas < item.meta_ac ? "text-danger":"text-success" ) font-weight-bold">@item.cajas</td>
+                                    <td class="@(item.cajas < item.meta_ac ? "text-danger":"text-success" ) font-weight-bold">@Math.Round(Convert.ToDouble(item.cajas), 2)</td>
                                     <td class="font-weight-bold">@item.kits</td>
                                     <td class="font-weight-bold">@item.wos</td>
                                     <td class="font-weight-bold">@item.tmuerto</td>

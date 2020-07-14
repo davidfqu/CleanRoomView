@@ -256,26 +256,26 @@
                                         {
                                             if (item.cajas < item.meta)
                                             {
-                                                <td class="font-weight-bold text-danger">@item.cajas</td>
+                                                <td class="font-weight-bold text-danger">@Math.Round(Convert.ToDouble(item.cajas), 2)</td>
                                             }
                                             else
                                             {
-                                                <td class="font-weight-bold text-success">@item.cajas</td>
+                                                <td class="font-weight-bold text-success">@Math.Round(Convert.ToDouble(item.cajas), 2)</td>
                                             }
                                         }
                                         else
                                         {
-                                            <td class="@(ViewBag.consecactual + 1 == item.consec ? "blue lighten-5":"")">@item.cajas</td>
+                                            <td class="@(ViewBag.consecactual + 1 == item.consec ? "blue lighten-5":"")">@Math.Round(Convert.ToDouble(item.cajas), 2)</td>
                                         }
 
                                     }
                                     @if (ViewBag.enmeta == "1")
                                     {
-                                        <td class="font-weight-bold text-success">@ViewBag.tcajas</td>
+                                        <td class="font-weight-bold text-success">@Math.Round(Convert.ToDouble(ViewBag.tcajas), 2)</td>
                                     }
                                     else
                                     {
-                                        <td class="font-weight-bold text-danger">@ViewBag.tcajas</td>
+                                        <td class="font-weight-bold text-danger">@Math.Round(Convert.ToDouble(ViewBag.tcajas), 2)</td>
                                     }
                                    
                                 </tr>

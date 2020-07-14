@@ -576,7 +576,7 @@ namespace medlinemxc.Controllers
             {
 
             }
-
+            tcajas =  Convert.ToDecimal(Math.Round(Convert.ToDouble(tcajas), 2));
 
             // var metah = db.t_lineconfh.Where(x => x.clave == tlinea).OrderBy(x=>x.consec).ToList();
             //var cajash = db.t_boxingscan_h.Where(x => x.linea == linea && DbFunctions.TruncateTime(x.fecha) >= DateTime.Today).OrderBy(x => x.hora).ToList();
@@ -630,6 +630,8 @@ namespace medlinemxc.Controllers
             {
                 color = "bg-success";
             }
+
+            totalcajas = Convert.ToDecimal(Math.Round(Convert.ToDouble(totalcajas),2));
 
             ViewBag.color = color;
             ViewBag.totalcajas = totalcajas;
@@ -693,9 +695,11 @@ namespace medlinemxc.Controllers
                 }
 
             }
+            var totalcajas = linesInfo.Sum(x => x.cajas);
 
+           totalcajas= Convert.ToDecimal(Math.Round(Convert.ToDouble(totalcajas), 2));
 
-            ViewBag.tcajas = linesInfo.Sum(x => x.cajas);
+            ViewBag.tcajas = totalcajas;
             ViewBag.tmeta = linesInfo.Sum(x => x.meta_ac);
             ViewBag.tkits = linesInfo.Sum(x => x.kits);
             ViewBag.ttmuerto = linesInfo.Sum(x => x.tmuerto);
