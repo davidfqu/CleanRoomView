@@ -83,7 +83,7 @@
 
                 <!--Grid column-->
                 <div class="col-md-1 col-sm-1 px-2">
-                    <a  id="brefresh" class="card primary-color-dark hoverable" style="height: 13vh">
+                    <a id="brefresh" class="card primary-color-dark hoverable" style="height: 13vh">
 
                         <div class="text-center my-auto">
                             <h3 class="my-1" style="font-size: 5vh"><i class="fas fa-redo-alt white-ic"></i></h3>
@@ -91,7 +91,7 @@
 
                     </a>
                 </div>
-                <div class="col-md-3 col-sm-3 px-2">
+                <div class="col-md-2 col-sm-2 px-2">
                     <div class="card" style="height: 13vh">
 
                         <div class="text-center my-auto">
@@ -101,12 +101,18 @@
 
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4 px-2">
+                <div class="col-md-5 col-sm-4 px-2">
                     <div class="card" style="height: 13vh">
 
-                        <div class="text-center my-auto">
-                            <h3 class="my-1" style="font-size: 3.2vh"><span class="font-weight-bold"> Cajas:</span><span id="hcajas">0</span>/<span id="hcajast">0</span></h3>
-                            <h3 class="my-1" style="font-size: 3.2vh"><span class="font-weight-bold"> Kits:</span> <span id="hkits">0</span>/<span id="hkitst">0</span></h3>
+                        <div class="row my-auto">
+                            <div class="col-6 text-center">
+                                <h3 class="my-1" style="font-size: 3.2vh"><span class="font-weight-bold"> Cajas:</span><span id="hcajas">0</span>/<span id="hcajast">0</span></h3>
+                                <h3 class="my-1" style="font-size: 3.2vh"><span class="font-weight-bold"> Kits:</span> <span id="hkits">0</span>/<span id="hkitst">0</span></h3>
+                            </div>
+                            <div class="col-6 text-center my-auto">
+                                <h3 class="my-1" style="font-size: 3.2vh"><span class="font-weight-bold"> Kits/Caja:</span><span id="hkitsncs">0</span>/<span id="hkitspcs">0</span></h3>
+                            </div>
+                            
                         </div>
 
                     </div>
@@ -183,6 +189,8 @@
                                 <h3 id="hcodcor" class="indicadores"  style="font-size: 5vh;display:none"><span class="badge badge-pill success-color-dark">Código Correcto</span> </h3>
                                 <h3 id="hcamwo" class="indicadores" style="font-size: 5vh;display:none"><span class="badge badge-pill primary-color-dark">Cambio de WO</span></h3>
                                 <h3 id="hwocom" class="indicadores"  style="font-size: 5vh;display:none"><span class="badge badge-pill primary-color-dark">WO Completada</span></h3>
+                                <h3 id="hcaja_completa" class="indicadores" style="font-size: 5vh;display:none"><span class="badge badge-pill success-color-dark">Caja Completa</span> </h3>
+                                
                             </div>
                         </div>
 
@@ -207,6 +215,20 @@
                         </div>
                     </div>
 
+                    <div id="indcaja_completa" class="card green lighten-4 indicadores" style="height:43vh;display:none">
+                        <div class="text-center my-auto">
+                            <i id="i_caja_abierta" class="fas fa-box-open" style="font-size:28vh; color:#1b5e20"></i>
+                            <i id="i_caja_cerrada" class="fas fa-box" style="font-size:28vh; color:#1b5e20; display:none"></i>
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <div class="col-8">
+                                    <div class="progress" style="border-radius:50px;height:2vh">
+                                        <div id="progressBarBox" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="@ViewBag.tiempobox" style="background-color:#1b5e20"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="indcargando" class="card blue lighten-5 indicadores" style="height:43vh;display:none">
                         <div class="text-center my-auto">
                             <i class="fas fa-spinner" style="font-size:28vh; color:#0d47a1"></i>
@@ -215,7 +237,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="col-md-4 col-sm-4 px-2" data-toggle="modal" data-target="#ModalCambioWO">
+                <a id="button_cambioWO" href="#" class="col-md-4 col-sm-4 px-2">
                     <div id="cambioWO" class="card blue lighten-5 hoverable" style="height:43vh">
                         <div class="text-center my-auto">
                             <i id="i_cambiowo" class="fas fa-exchange-alt" style="font-size:28vh; color:#0d47a1"></i>
@@ -394,7 +416,6 @@
                             </div>
                         </div>
                         
-                        
                     </div>
                 </div>
             </div>
@@ -432,6 +453,9 @@
             var contrasena  = "-";
             var effects = 'animated shake';
             var effectsEnd = 'animationEnd oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+            var kits_por_caja=0, kits_en_caja=0, caja_completada = "0", progressperc = 0, botones_habilitados = 1;
+            var tiempobox = @ViewBag.tiempobox;
+
 
             var scan;
             $('#hfecha').text(f.getDate() + "-" + meses[f.getMonth()] + "-" + f.getFullYear());
@@ -509,8 +533,23 @@
                         $("#hkits").text(infoScan[5]);
                         $("#hprogress").text(infoScan[6]);
                         $('#hprogress').css("width", infoScan[6]);
-
+                        $('#hkitspcs').text(infoScan[8]);
                         ultimoscan = scan;
+                        kits_por_caja = infoScan[8];
+                        var div = infoScan[5] / infoScan[8];
+                        var dec = div - Math.floor(div);
+                        kits_en_caja = Math.round(dec* infoScan[8]);
+                        if (kits_en_caja == 0)
+                        {
+                            caja_completada = "1";
+                            kits_en_caja = kits_por_caja;
+                        }
+                        else
+                        {
+                            caja_completada = "0";
+                        }
+                        $('#hkitsncs').text(kits_en_caja);
+
 
                         if(infoScan[0] == "0")
                         {
@@ -572,11 +611,45 @@
                 });
             }
 
+            function CajaCompleta(){
+                $("#indcaja_completa").show();
+                $("#hcaja_completa").show();
+                $("#ilote").prop('readonly',true);
+                var tiempo_timer = tiempobox;
+                $("#i_caja_abierta").show();
+                $("#i_caja_cerrada").hide();
+                $('#progressBarBox').attr('aria-valuenow', 0).css('width','0%');
+                botones_habilitados = 0;
+                var timerId = setInterval(countdown, 1000);
+                
+                function countdown() {
+                    if (tiempo_timer == 0) {
+                        clearTimeout(timerId);
+                        $("#i_caja_abierta").hide();
+                        $("#i_caja_cerrada").show();
+                        $("#ilote").prop('readonly',false);
+                        botones_habilitados = 1;
+                        $("#ilote").focus();
+                    } else {
+                        tiempo_timer--;
+                        progressperc = ((tiempobox - tiempo_timer) / tiempobox) *100;
+                        $('#progressBarBox').attr('aria-valuenow', tiempobox - tiempo_timer).css('width', progressperc+'%');  
+                    }
+                }
+            }
 
             function CodCorrecto(){
                 $(".indicadores").hide();
                 $("#hcodcor").show();
-                $("#indcorrecto").show();
+                if(caja_completada =="1")
+                {
+                    CajaCompleta();
+                }
+                else
+                {
+                    $("#indcorrecto").show();
+                }
+                
             }
 
             function CodIncorrecto(){
@@ -588,7 +661,14 @@
             function CambioWO(){
                 $(".indicadores").hide();
                 $("#hcamwo").show();
-                $("#indcorrecto").show();
+                if(caja_completada =="1")
+                {
+                    CajaCompleta();
+                }
+                else
+                {
+                    $("#indcorrecto").show();
+                }
             }
 
             function WOCompleta() {
@@ -617,8 +697,28 @@
             }
 
             $("#brefresh").click(function () {
-                refresh();
+                if (botones_habilitados == 1)
+                {
+                    refresh();
+                }
+                else
+                {
+                    return false;
+                }
+                
             });
+
+            $("#button_cambioWO").click(function(){
+                if(botones_habilitados == 1)
+                {
+                    $("#ModalCambioWO").modal('toggle');
+                }
+                else
+                {
+                    return false;
+                }
+               
+            })
 
             function doIt() {
                 var d, h, m, s;
@@ -631,7 +731,7 @@
                         window.location.reload();
                     }
                 }
-            }
+            }          
 
         });
     </script>

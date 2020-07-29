@@ -83,6 +83,7 @@
           <Property Name="comp_pre" Type="numeric" Precision="2" Scale="0" />
           <Property Name="threshold_boxscan" Type="int" />
           <Property Name="factor_kitsxcaja" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="tiempo_caja_comp" Type="int" />
         </EntityType>
         <EntityType Name="t_lineconf">
           <Key>
@@ -403,6 +404,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="comp_pre" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="threshold_boxscan" Type="Int32" />
           <Property Name="factor_kitsxcaja" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="tiempo_caja_comp" Type="Int32" />
         </EntityType>
         <EntityType Name="t_boxingscan_d">
           <Key>
@@ -538,6 +540,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <EntitySetMapping Name="t_config">
             <EntityTypeMapping TypeName="LayoutSystemModel.t_config">
               <MappingFragment StoreEntitySet="t_config">
+                <ScalarProperty Name="tiempo_caja_comp" ColumnName="tiempo_caja_comp" />
                 <ScalarProperty Name="factor_kitsxcaja" ColumnName="factor_kitsxcaja" />
                 <ScalarProperty Name="threshold_boxscan" ColumnName="threshold_boxscan" />
                 <ScalarProperty Name="comp_pre" ColumnName="comp_pre" />

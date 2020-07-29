@@ -129,6 +129,7 @@ namespace medlinemxc.Controllers
             int tmuerto, tkits;
             var config = db.t_config.Find("686");
             var treshold = config.threshold_boxscan;
+            var tiempobox = config.tiempo_caja_comp;
 
             int consecactual = 50000;
 
@@ -191,6 +192,7 @@ namespace medlinemxc.Controllers
             ViewBag.enmeta = enmeta;
             ViewBag.consecactual = consecactual;
             ViewBag.treshold = treshold;
+            ViewBag.tiempobox = tiempobox;
             return View();
         }
 
@@ -211,7 +213,7 @@ namespace medlinemxc.Controllers
             }     
             
                 
-            string[] infoScan = new string[8];
+            string[] infoScan = new string[9];
             t_boxingscan newboxingscan = new t_boxingscan();
 
             //si el ultimo lote es el mismo no ir a la base de datos de as400
@@ -341,6 +343,8 @@ namespace medlinemxc.Controllers
                 db.t_boxingscan.Add(newboxingscan);
                 db.SaveChanges();
             }
+
+            infoScan[8] = Convert.ToString(newboxingscan.kits_por_caja);
             return Json(infoScan, JsonRequestBehavior.AllowGet);
 
         }
@@ -507,7 +511,7 @@ namespace medlinemxc.Controllers
                 }
                 else
                 {
-                    data1Graph = data1Graph + Convert.ToString(item.cajas);          
+                    data1Graph = data1Graph + Convert.ToString(Math.Round(item.cajas,2));          
                 }
                 data2Graph = data2Graph + Convert.ToString(item.meta);
                 xAxisGraph = xAxisGraph + "'" + Convert.ToString(item.hora.Substring(8,5)) + "'";
@@ -669,7 +673,7 @@ namespace medlinemxc.Controllers
             {
 
                 n++;
-                data1Graph = data1Graph + Convert.ToString(item.cajas);
+                data1Graph = data1Graph + Convert.ToString(Math.Round(Convert.ToDouble(item.cajas), 2));
                 data2Graph = data2Graph + Convert.ToString(item.meta_ac);
                 xAxisGraph = xAxisGraph + Convert.ToString(item.linea);
 
