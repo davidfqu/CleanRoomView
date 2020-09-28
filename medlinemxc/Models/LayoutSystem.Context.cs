@@ -36,6 +36,8 @@ namespace medlinemxc.Models
         public virtual DbSet<t_boxingscan_d> t_boxingscan_d { get; set; }
         public virtual DbSet<t_boxingscan_cambiowo> t_boxingscan_cambiowo { get; set; }
         public virtual DbSet<t_boxingscan_pass> t_boxingscan_pass { get; set; }
+        public virtual DbSet<v_tmuerto_razon_por_linea> v_tmuerto_razon_por_linea { get; set; }
+        public virtual DbSet<v_tmuerto_razon_por_linea_wo> v_tmuerto_razon_por_linea_wo { get; set; }
     
         public virtual ObjectResult<sp_dailyline_Result> sp_dailyline(string linea, string turno, Nullable<System.DateTime> fecha)
         {

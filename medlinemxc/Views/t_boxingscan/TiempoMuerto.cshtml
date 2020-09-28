@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Tiempo Muerto</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/css/style.min.css" rel="stylesheet">
+</head>
+
+<body class="grey lighten-3">
+    <!--Main layout-->
+    <main id="main" class="pt-5 mx-lg-2">
+        <div class="container-fluid">
+
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-10">
+                    <div class="card mb-4 wow fadeIn d-flex justify-content-center align-content-center" style="height:12vw">
+                            <h1 class="font-weight-bold ml-5" style="font-size:7vw">
+                                Linea @ViewBag.linea <span class="text-black-50 font-weight-light" style="font-size:5.5vw">@ViewBag.tlineadesc</span>
+                            </h1>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="list-group list-group-flush align-items-center mt-2">
+
+                            <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">T. MUERTO</span></h3>
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                                @ViewBag.tmuerto_total
+                            </h1>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- Heading -->
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-md-12">
+
+                    <!--Card-->
+                    <div class="card" style="height: 98%;">
+                        <div class="card-header text-center">
+                            <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 2.2vw">
+                                Pareto Tiempo Muerto
+                            </h1>
+                        </div>
+                        <!--Card content-->
+                        <div class="card-body">
+
+                            <canvas id="ChartTMuerto" style="height: 38vw"></canvas>
+
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <div class="row  mb-3">
+                <div class="col-2">
+                    <a class="card text-center hoverable" style="font-size:20px; height:50px; border-radius:25px" href='@Url.Action("Horaxhora", new { linea = ViewBag.linea})'>
+                        <p class="my-auto"> <i class="fas fa-chevron-left"></i> Regresar</p>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+    </main>
+    <!--Main layout-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/js/jquery-3.4.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+    // Animations initialization
+        new WOW().init();
+       // window.setInterval('refresh()', 900000); //15 min
+        function refresh(){
+            window .location.reload();
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+    <!-- Charts -->
+    <script>
+
+        var tamanoejes = 36;
+        var tamanoticks = 38;
+
+        if (document.documentElement.clientHeight < 850)
+        {
+            document.getElementById("main").classList.remove('pt-5');
+            document.getElementById("main").classList.add('pt-4');
+
+        }else {
+            document.getElementById("ChartTMuerto").style["height"] = "35vw";
+            tamanoejes = 30;
+            tamanoticks = 32;
+        }
+
+
+    // Line
+        var ctx = document.getElementById("ChartTMuerto").getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: '% Acumulado',
+                    data: @ViewBag.data2Graph,
+                    yAxisID: 'right-y-axis',
+                    type: 'line',
+                    borderColor: '#ff8b33',
+                    pointBorderColor: '#ff8b33',
+                    pointBackgroundColor: '#ff8b33',
+                    pointHoverBackgroundColor: '#ff8b33',
+                    pointHoverBorderColor: '#ff8b33',
+                    pointBorderWidth: 10,
+                    pointHoverRadius: 10,
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 3,
+                    backgroundColor: '#ff8b33',
+                    borderWidth: 4,
+                    // this dataset is drawn on top
+                    order: 2,
+                    fill: false,
+                }, {
+                    label: 'Tiempo Muerto',
+                    data:@ViewBag.data1Graph,
+                    yAxisID: 'left-y-axis',
+                    backgroundColor: '#007ed9',
+                    datalabels: {
+                        // display labels for this specific dataset
+                        display: true
+                    },
+                    // this dataset is drawn below
+                    order: 1,
+
+                }],
+                labels: @Html.Raw(ViewBag.xAxisGraph),
+            },
+            options: {
+                maintainAspectRatio:false,
+                responsive: true,
+                onClick: graphClickEvent,
+                animation: {
+                    animationRotate: true,
+                    duration: 2000
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: Math.round(document.documentElement.clientHeight / 32),
+                        fontColor: "rgb(0,0,0)"
+                    }
+
+                },
+                scales: {
+                    yAxes: [{
+                        id: 'left-y-axis',
+                        position: 'left',
+                        scaleLabel: {
+                            labelString: "Tiempo Muerto",
+                            display: true,
+                            fontSize: Math.round(document.documentElement.clientHeight / 28),
+                            fontColor: "rgb(0,0,0)"
+                        },
+                        ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight / 30),
+                            fontColor: "rgb(0,0,0)",
+                            beginAtZero: true
+                        }
+          },
+          {
+              id: 'right-y-axis',
+              position: 'right',
+              scaleLabel: {
+                  labelString: "% Acumulado",
+                  display: true,
+                  fontSize: Math.round(document.documentElement.clientHeight / 28),
+                  fontColor: "rgb(0,0,0)"
+              },
+              ticks: {
+                  fontSize: Math.round(document.documentElement.clientHeight / 30),
+                  fontColor: "rgb(0,0,0)",
+                  beginAtZero: true
+              }
+          }],
+          xAxes: [{
+                        scaleLabel: {
+                            labelString: "Hora",
+                            display: false,
+                            fontSize: Math.round(document.documentElement.clientHeight / 28),
+                            fontColor: "rgb(0,0,0)"
+                        },
+                        ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight / 30),
+                            fontColor: "rgb(0,0,0)"
+                        }
+                    }]
+        },
+        plugins: {
+                    // Change options for ALL labels of THIS CHART
+            datalabels: {
+                display: false,
+                color: "rgb(254,254,254)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 14);
+                            return {
+                                size: size
+
+                            };
+
+                        },
+
+                    }
+                }
+      }
+        });
+
+        function graphClickEvent(evt){
+            var activePoint = myChart.getElementAtEvent(evt)[0];
+            var data = activePoint._chart.data;
+            var datasetIndex = activePoint._datasetIndex;
+            var value = data.datasets[datasetIndex].data[activePoint._index];
+            var label = data.labels[activePoint._index];
+
+            if(label == 'Non Programmed Stops')
+            {
+                $(location).attr('href', '@Html.Raw(Url.Action("TiempoMuerto_WO", "t_boxingscan", new { linea = ViewBag.linea, razon = "2" }))');
+            }
+            if(label == 'Change Over')
+            {
+                $(location).attr('href', '@Html.Raw(Url.Action("TiempoMuerto_WO", "t_boxingscan", new { linea = ViewBag.linea, razon = "3" }))');
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>

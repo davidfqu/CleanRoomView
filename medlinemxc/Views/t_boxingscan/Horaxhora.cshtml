@@ -86,19 +86,19 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card mb-2 wow fadeIn" style="height:12vw">
+                    <a href='@Url.Action("TiempoMuerto", new { linea = ViewBag.linea})' class="card mb-2 wow fadeIn hoverable" style="height:12vw">
 
                         <div class="list-group list-group-flush align-items-center mt-2">
 
                             <h3 style="font-size: 2.5vw"><span class="badge danger-color-dark">T. MUERTO</span></h3>
-                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 " style="font-size:6.5vw">
+                            <h1 class="font-weight-bold mb-2 mb-sm-0 pt-1 black-text" style="font-size:6.5vw">
                                 @ViewBag.ttmuerto
                             </h1>
 
 
                         </div>
 
-                    </div>
+                    </a>
                 </div>
 
 
@@ -142,9 +142,12 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-12 text-right ">
-                    @Html.ActionLink("Regresar a vista por lineas", "CleanRoom", "t_boxingscan")
+            <div class="row  mb-3">
+                <div class="col-2">
+                    <a class="card text-center hoverable" style="font-size:20px; height:50px; border-radius:25px" href="@Url.Action("CleanRoom","t_boxingscan",null)">
+                        <p class="my-auto"> <i class="fas fa-chevron-left"></i> Regresar</p>
+                    </a>
+                    
                 </div>
             </div>
         </div>

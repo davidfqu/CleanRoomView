@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -305,6 +306,12 @@
     <Compile Include="Models\t_lineconfh.cs">
       <DependentUpon>LayoutSystem.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_tmuerto_razon_por_linea.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v_tmuerto_razon_por_linea_wo.cs">
+      <DependentUpon>LayoutSystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -401,6 +408,8 @@
     <Content Include="Views\t_boxingscan\ProdDiariaCR.cshtml" />
     <Content Include="Views\t_boxingscan\HistorialDiario.cshtml" />
     <Content Include="Views\t_boxingscan\BoxingLines.cshtml" />
+    <Content Include="Views\t_boxingscan\TiempoMuerto.cshtml" />
+    <Content Include="Views\t_boxingscan\TiempoMuerto_WO.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -21,6 +21,7 @@
           <Property Name="tmuerto" Type="int" />
           <Property Name="wo_completa" Type="varchar" MaxLength="1" />
           <Property Name="kits_por_caja" Type="int" />
+          <Property Name="tmuerto_razon" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="t_boxingscan_cambiowo">
           <Key>
@@ -147,6 +148,35 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="wos" Type="int" />
           <Property Name="tmuerto" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LayoutSystem.dbo.v_tmuerto_razon_por_linea' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_tmuerto_razon_por_linea">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="descripcion" />
+          </Key>
+          <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fecha" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tiempo_muerto" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LayoutSystem.dbo.v_tmuerto_razon_por_linea_wo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_tmuerto_razon_por_linea_wo">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="wo" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="tmuerto_razon" />
+          </Key>
+          <Property Name="linea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="wo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tmuerto_razon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="tiempo_muerto" Type="int" />
+        </EntityType>
         <Association Name="FK_t_lineconfd_t_lineconf">
           <End Role="t_lineconf" Type="Self.t_lineconf" Multiplicity="1" />
           <End Role="t_lineconfd" Type="Self.t_lineconfd" Multiplicity="*" />
@@ -209,6 +239,24 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
     [t_boxingscan_h].[tmuerto] AS [tmuerto]
     FROM [dbo].[t_boxingscan_h] AS [t_boxingscan_h]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_tmuerto_razon_por_linea" EntityType="Self.v_tmuerto_razon_por_linea" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_tmuerto_razon_por_linea].[linea] AS [linea], 
+    [v_tmuerto_razon_por_linea].[fecha] AS [fecha], 
+    [v_tmuerto_razon_por_linea].[descripcion] AS [descripcion], 
+    [v_tmuerto_razon_por_linea].[tiempo_muerto] AS [tiempo_muerto]
+    FROM [dbo].[v_tmuerto_razon_por_linea] AS [v_tmuerto_razon_por_linea]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_tmuerto_razon_por_linea_wo" EntityType="Self.v_tmuerto_razon_por_linea_wo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_tmuerto_razon_por_linea_wo].[linea] AS [linea], 
+    [v_tmuerto_razon_por_linea_wo].[wo] AS [wo], 
+    [v_tmuerto_razon_por_linea_wo].[fecha] AS [fecha], 
+    [v_tmuerto_razon_por_linea_wo].[tmuerto_razon] AS [tmuerto_razon], 
+    [v_tmuerto_razon_por_linea_wo].[descripcion] AS [descripcion], 
+    [v_tmuerto_razon_por_linea_wo].[tiempo_muerto] AS [tiempo_muerto]
+    FROM [dbo].[v_tmuerto_razon_por_linea_wo] AS [v_tmuerto_razon_por_linea_wo]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_t_lineconfd_t_lineconf" Association="Self.FK_t_lineconfd_t_lineconf">
             <End Role="t_lineconf" EntitySet="t_lineconf" />
             <End Role="t_lineconfd" EntitySet="t_lineconfd" />
@@ -248,6 +296,8 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <EntitySet Name="t_boxingscan_d" EntityType="LayoutSystemModel.t_boxingscan_d" />
           <EntitySet Name="t_boxingscan_cambiowo" EntityType="LayoutSystemModel.t_boxingscan_cambiowo" />
           <EntitySet Name="t_boxingscan_pass" EntityType="LayoutSystemModel.t_boxingscan_pass" />
+          <EntitySet Name="v_tmuerto_razon_por_linea" EntityType="LayoutSystemModel.v_tmuerto_razon_por_linea" />
+          <EntitySet Name="v_tmuerto_razon_por_linea_wo" EntityType="LayoutSystemModel.v_tmuerto_razon_por_linea_wo" />
         </EntityContainer>
         <EntityType Name="t_boxingscan">
           <Key>
@@ -265,6 +315,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="tmuerto" Type="Int32" />
           <Property Name="wo_completa" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="kits_por_caja" Type="Int32" />
+          <Property Name="tmuerto_razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="t_lineconf">
           <Key>
@@ -437,6 +488,31 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <Property Name="usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="contrasena" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="v_tmuerto_razon_por_linea">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="descripcion" />
+          </Key>
+          <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tiempo_muerto" Type="Int32" />
+        </EntityType>
+        <EntityType Name="v_tmuerto_razon_por_linea_wo">
+          <Key>
+            <PropertyRef Name="linea" />
+            <PropertyRef Name="wo" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="tmuerto_razon" />
+          </Key>
+          <Property Name="linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="wo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tmuerto_razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tiempo_muerto" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -446,6 +522,7 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
           <EntitySetMapping Name="t_boxingscan">
             <EntityTypeMapping TypeName="LayoutSystemModel.t_boxingscan">
               <MappingFragment StoreEntitySet="t_boxingscan">
+                <ScalarProperty Name="tmuerto_razon" ColumnName="tmuerto_razon" />
                 <ScalarProperty Name="kits_por_caja" ColumnName="kits_por_caja" />
                 <ScalarProperty Name="wo_completa" ColumnName="wo_completa" />
                 <ScalarProperty Name="tmuerto" ColumnName="tmuerto" />
@@ -612,6 +689,28 @@ warning 6002: The table/view 'LayoutSystem.dbo.t_boxingscan_h' does not have a p
               <MappingFragment StoreEntitySet="t_boxingscan_pass">
                 <ScalarProperty Name="contrasena" ColumnName="contrasena" />
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_tmuerto_razon_por_linea">
+            <EntityTypeMapping TypeName="LayoutSystemModel.v_tmuerto_razon_por_linea">
+              <MappingFragment StoreEntitySet="v_tmuerto_razon_por_linea">
+                <ScalarProperty Name="tiempo_muerto" ColumnName="tiempo_muerto" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_tmuerto_razon_por_linea_wo">
+            <EntityTypeMapping TypeName="LayoutSystemModel.v_tmuerto_razon_por_linea_wo">
+              <MappingFragment StoreEntitySet="v_tmuerto_razon_por_linea_wo">
+                <ScalarProperty Name="tiempo_muerto" ColumnName="tiempo_muerto" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="tmuerto_razon" ColumnName="tmuerto_razon" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="wo" ColumnName="wo" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

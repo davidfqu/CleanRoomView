@@ -198,14 +198,21 @@ namespace medlinemxc.Controllers
 
         public ActionResult loteScan(string id, string linea, int treshold)
         {
-           
+            int ultimo_folio = 0;
             t_boxingscan queryultimofolio = new t_boxingscan();
-            
-            var queryultimofolios = db.t_boxingscan.Where(x => x.linea == linea).OrderByDescending(x => x.folio).ToList();
+            var fecha_menos21 = System.DateTime.Now.AddDays(-21);
+
+            var queryultimofolios = db.t_boxingscan.Where(x => x.linea == linea && x.fecha >  fecha_menos21).OrderByDescending(x => x.folio).ToList();
 
             if(queryultimofolios.Any())
             {
+                
                 queryultimofolio = queryultimofolios.First<t_boxingscan>();
+                ultimo_folio = queryultimofolio.folio;
+                if (queryultimofolio.tmuerto_razon == "4")
+                {
+                    queryultimofolio = queryultimofolios.ElementAt(1);
+                }
             }
             else
             {
@@ -251,7 +258,7 @@ namespace medlinemxc.Controllers
                     Console.WriteLine(ex.Message); return View();
                 }
                 myCon.Close();
-                newboxingscan.folio = queryultimofolio.folio + 1;
+                newboxingscan.folio = ultimo_folio + 1;
                 newboxingscan.wo = infoLote[0].Replace(" ", String.Empty);
                 newboxingscan.lote = infoLote[1].Replace(" ", String.Empty);
                 newboxingscan.pn = infoLote[2].Replace(" ", String.Empty);
@@ -264,7 +271,7 @@ namespace medlinemxc.Controllers
             else
             {
                 infoScan[0] = "0";
-                newboxingscan.folio = queryultimofolio.folio + 1;
+                newboxingscan.folio = ultimo_folio + 1;
                 newboxingscan.wo = queryultimofolio.wo;
                 newboxingscan.lote = queryultimofolio.lote;
                 newboxingscan.pn = queryultimofolio.pn;
@@ -278,16 +285,20 @@ namespace medlinemxc.Controllers
             //tiempomuerto
             int tiempomuerto = 0;
             var fechacomparar = queryultimofolio.fecha;
+            string tiempomuerto_razon = "0";
+            //1.- Arranque, 2.- nonprogrammed, 3.- cambiowo, 4.- Cierre
 
             if (queryultimofolio.lote == "0" )// si no hubo ningun registro de esta linea antes
             {
                 fechacomparar = new DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 6, 0, 0);
+                tiempomuerto_razon = "1";
             }
             else 
             {
                 if(queryultimofolio.fecha.Value.Date != DateTime.Now.Date) // si el ultimo escaneo no fue hoy
                 {
                     fechacomparar = new DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 6, 0, 0); // hora de inicio de turno
+                    tiempomuerto_razon = "1";
                 }
             }
 
@@ -310,9 +321,29 @@ namespace medlinemxc.Controllers
             
 
             newboxingscan.tmuerto = tiempomuerto;
-
            
-
+            if(tiempomuerto > 0)
+            {
+                if(tiempomuerto_razon != "1")
+                {
+                    if(queryultimofolio.lote == newboxingscan.lote)
+                    {
+                        newboxingscan.tmuerto_razon = "2";
+                    }
+                    else
+                    {
+                        newboxingscan.tmuerto_razon = "3";
+                    }
+                }
+                else
+                {
+                    newboxingscan.tmuerto_razon = "1";
+                }
+            }
+            else
+            {
+                newboxingscan.tmuerto_razon = "0";
+            }
             double totalkits = Math.Round(Convert.ToDouble(newboxingscan.cajas_total * newboxingscan.kits_por_caja));
             infoScan[1] = newboxingscan.wo;
             infoScan[2] = Convert.ToString(newboxingscan.cajas_total);
@@ -346,7 +377,6 @@ namespace medlinemxc.Controllers
 
             infoScan[8] = Convert.ToString(newboxingscan.kits_por_caja);
             return Json(infoScan, JsonRequestBehavior.AllowGet);
-
         }
 
         public string Desbloqueo(string linea, string contrasena)
@@ -481,7 +511,7 @@ namespace medlinemxc.Controllers
             tmuerto = tablaprogreso.Sum(x => x.tmuerto);
             var tkits = tablaprogreso.Sum(x => x.kits);
 
-            int hactual = System.DateTime.Now.Hour - 1;
+            int hactual = System.DateTime.Now.Hour;
 
             string rojo = "'#de5f5f'";
             string verde = "'#7dc975'";
@@ -511,7 +541,7 @@ namespace medlinemxc.Controllers
                 }
                 else
                 {
-                    data1Graph = data1Graph + Convert.ToString(Math.Round(item.cajas,2));          
+                    data1Graph = data1Graph + Convert.ToString(Math.Round(item.cajas));          
                 }
                 data2Graph = data2Graph + Convert.ToString(item.meta);
                 xAxisGraph = xAxisGraph + "'" + Convert.ToString(item.hora.Substring(8,5)) + "'";
@@ -585,7 +615,7 @@ namespace medlinemxc.Controllers
             // var metah = db.t_lineconfh.Where(x => x.clave == tlinea).OrderBy(x=>x.consec).ToList();
             //var cajash = db.t_boxingscan_h.Where(x => x.linea == linea && DbFunctions.TruncateTime(x.fecha) >= DateTime.Today).OrderBy(x => x.hora).ToList();
             ViewBag.twos = twos;
-            ViewBag.tcajas = tcajas;
+            ViewBag.tcajas = Math.Round(tcajas);
             ViewBag.tmeta = metaactual;
             ViewBag.tkits = tkits;
             ViewBag.ttmuerto = tmuerto;
@@ -651,6 +681,119 @@ namespace medlinemxc.Controllers
             return View();
         }
 
+        public ActionResult TiempoMuerto(string linea)
+        {
+           // linea = "07";
+            string fecha = System.DateTime.Today.Date.ToString("yyyy-MM-dd");
+            var tlineainfo = db.t_lineconfd.Where(x => x.line == linea).First();
+            string tlinea = tlineainfo.clave;
+            string tlineadesc = tlineainfo.t_lineconf.descrip;
+
+            var tmuerto = db.v_tmuerto_razon_por_linea.Where(x => x.linea == linea && x.fecha == fecha).OrderByDescending(x=>x.tiempo_muerto).ToList();
+            int tmuerto_total = Convert.ToInt16(tmuerto.Sum(x => x.tiempo_muerto));
+            int tmuerto_acc = 0;
+            string data1Graph = "[";
+            string data2Graph = "[";
+            string xAxisGraph = "[";
+            int n = 0;
+            foreach (var item in tmuerto)
+            {
+                n++;
+
+                tmuerto_acc = tmuerto_acc + Convert.ToInt16(item.tiempo_muerto);
+                double porcentaje = Math.Round(Convert.ToDouble((tmuerto_acc*1.0 / tmuerto_total) * 100));
+
+                data1Graph = data1Graph + Convert.ToString(item.tiempo_muerto);
+                data2Graph = data2Graph + Convert.ToString(porcentaje);
+                xAxisGraph = xAxisGraph + "'" + Convert.ToString(item.descripcion) + "'";
+
+                if (n == tmuerto.Count())
+                {
+
+                    data1Graph = data1Graph + "]";
+                    data2Graph = data2Graph + "]";
+                    xAxisGraph = xAxisGraph + "]";
+                }
+                else
+                {
+                    data1Graph = data1Graph + ",";
+                    data2Graph = data2Graph + ",";
+                    xAxisGraph = xAxisGraph + ",";
+
+                }
+
+            }
+            ViewBag.tmuerto_total = tmuerto_total;
+            ViewBag.linea = linea;
+            ViewBag.tlineadesc = tlineadesc;
+            ViewBag.data1Graph = data1Graph;
+            ViewBag.data2Graph = data2Graph;
+            ViewBag.xAxisGraph = xAxisGraph;
+
+            return View();
+        }
+
+        public ActionResult TiempoMuerto_WO(string linea, string razon)
+        {
+            
+            string fecha = System.DateTime.Today.Date.ToString("yyyy-MM-dd");
+            var tlineainfo = db.t_lineconfd.Where(x => x.line == linea).First();
+            string tlinea = tlineainfo.clave;
+            string tlineadesc = tlineainfo.t_lineconf.descrip;
+
+            var tmuerto = db.v_tmuerto_razon_por_linea_wo.Where(x => x.linea == linea && x.fecha == fecha && x.tmuerto_razon == razon).OrderByDescending(x => x.tiempo_muerto).ToList();
+            int tmuerto_total = Convert.ToInt16(tmuerto.Sum(x => x.tiempo_muerto));
+            int tmuerto_acc = 0;
+            string data1Graph = "[";
+            string data2Graph = "[";
+            string xAxisGraph = "[";
+            int n = 0;
+            foreach (var item in tmuerto)
+            {
+                n++;
+
+                tmuerto_acc = tmuerto_acc + Convert.ToInt16(item.tiempo_muerto);
+                double porcentaje = Math.Round(Convert.ToDouble((tmuerto_acc * 1.0 / tmuerto_total) * 100));
+
+                data1Graph = data1Graph + Convert.ToString(item.tiempo_muerto);
+                data2Graph = data2Graph + Convert.ToString(porcentaje);
+                xAxisGraph = xAxisGraph + "'" + Convert.ToString(item.wo) + "'";
+
+                if (n == tmuerto.Count())
+                {
+
+                    data1Graph = data1Graph + "]";
+                    data2Graph = data2Graph + "]";
+                    xAxisGraph = xAxisGraph + "]";
+                }
+                else
+                {
+                    data1Graph = data1Graph + ",";
+                    data2Graph = data2Graph + ",";
+                    xAxisGraph = xAxisGraph + ",";
+
+                }
+
+            }
+
+            if(razon == "2")
+            {
+                ViewBag.razon = "Non Programmed Stops";
+            }else
+            {
+                ViewBag.razon = "Change Over";
+            }
+
+
+            ViewBag.tmuerto_total = tmuerto_total;
+            ViewBag.linea = linea;
+            ViewBag.tlineadesc = tlineadesc;
+            ViewBag.data1Graph = data1Graph;
+            ViewBag.data2Graph = data2Graph;
+            ViewBag.xAxisGraph = xAxisGraph;
+
+            return View();
+        }
         public ActionResult BoxingLines()
         {
             return View(db.t_lineconfd.Include(t => t.t_lineconf).OrderBy(x => x.line).ToList());
@@ -712,8 +855,6 @@ namespace medlinemxc.Controllers
             ViewBag.data2Graph = data2Graph;
             ViewBag.colorGraph = colorGraph;
             ViewBag.xAxisGraph = xAxisGraph;
-
-
             ViewBag.linesInfo = linesInfo;
 
 
